@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  agenda_service:
+    image: ${DOCKER_REGISTRY-}dockeragenda
+    build:
+      context: .
+      dockerfile: src/DockerAgenda/Dockerfile
+    networks:
+     - net_agenda
+
+networks:
+  net_agenda:
+    driver: bridge
