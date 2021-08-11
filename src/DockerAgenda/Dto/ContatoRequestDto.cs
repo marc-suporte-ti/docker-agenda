@@ -8,7 +8,7 @@
         /// <summary>
         /// Nome do contato
         /// </summary>
-        public string Nome { get; set; }
+        public string NomeContato { get; set; }
 
         /// <summary>
         /// Relacionamento com este contato

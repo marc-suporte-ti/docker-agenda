@@ -46,14 +46,14 @@ namespace DockerAgenda.Controllers
         /// <param name="id">Id do registro da agenda</param>
         /// <returns>Informações da agenda consultada</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<AgendaDto>> PostAgenda(Guid id)
+        public async Task<ActionResult<AgendaDto>> GetAgenda(Guid id)
         {
             var agenda = new AgendaDto { Id = Guid.NewGuid() };
             return Ok(agenda);
         }
 
         /// <summary>
-        /// Cria o contrato para alocação dos servis registros de contato
+        /// Cria o contato na agenda informada
         /// </summary>
         /// <param name="id">Id da agenda criada</param>
         /// <param name="contatoRequestDto">Dados do contato para cadastro</param>
@@ -66,13 +66,13 @@ namespace DockerAgenda.Controllers
         }
 
         /// <summary>
-        /// Consulta contato pelo id
+        /// Consulta contato pelo id do contato e id da agenda
         /// </summary>
         /// <param name="id">Id da agenda onde o contato foi cadastrado</param>
         /// <param name="idContato">Id do contato para consulta</param>
         /// <returns>Contato encontrado</returns>
         [HttpGet("{id}/contatos/{idContato}")]
-        public async Task<ActionResult<ContatoDto>> PostContato(Guid id, Guid idContato)
+        public async Task<ActionResult<ContatoDto>> GetContato(Guid id, Guid idContato)
         {
             var contato = new ContatoDto { Id = Guid.NewGuid() };
             return Ok(contato);

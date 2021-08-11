@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DockerAgenda</name>
+    </assembly>
+    <members>
+        <member name="T:DockerAgenda.Controllers.AgendasController">
+            <summary>
+            Controller responsável por gerenciar contatos de uma agenda
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Controllers.AgendasController._logger">
+            <summary>
+            Instância de log da aplicação
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.Controllers.AgendasController.#ctor(Microsoft.Extensions.Logging.ILogger{DockerAgenda.Controllers.AgendasController})">
+            <summary>
+            Construtor da controller responsável por gerenciar contatos de uma agenda
+            </summary>
+            <param name="logger">Instância de log da aplicação</param>
+        </member>
+        <member name="M:DockerAgenda.Controllers.AgendasController.PostAgenda(DockerAgenda.Dto.AgendaRequestDto)">
+            <summary>
+            Responsável por criar a agenda para o novo usuário
+            </summary>
+            <param name="agendaRequestDto">Dados para registro da agenda</param>
+            <returns>Agenda criada</returns>
+        </member>
+        <member name="M:DockerAgenda.Controllers.AgendasController.GetAgenda(System.Guid)">
+            <summary>
+            Consulta agenda pelo id
+            </summary>
+            <param name="id">Id do registro da agenda</param>
+            <returns>Informações da agenda consultada</returns>
+        </member>
+        <member name="M:DockerAgenda.Controllers.AgendasController.PostContato(System.Guid,DockerAgenda.Dto.ContatoRequestDto)">
+            <summary>
+            Cria o contato na agenda informada
+            </summary>
+            <param name="id">Id da agenda criada</param>
+            <param name="contatoRequestDto">Dados do contato para cadastro</param>
+            <returns>Contato criado na agenda</returns>
+        </member>
+        <member name="M:DockerAgenda.Controllers.AgendasController.GetContato(System.Guid,System.Guid)">
+            <summary>
+            Consulta contato pelo id do contato e id da agenda
+            </summary>
+            <param name="id">Id da agenda onde o contato foi cadastrado</param>
+            <param name="idContato">Id do contato para consulta</param>
+            <returns>Contato encontrado</returns>
+        </member>
+        <member name="T:DockerAgenda.Dto.AgendaDto">
+            <summary>
+            Registro da agenda cadastrada
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.AgendaDto.Id">
+            <summary>
+            Id identificador da agenda cadastrada
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.AgendaDto.Contatos">
+            <summary>
+            Lista de contatos da agenda
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Dto.AgendaRequestDto">
+            <summary>
+            Registro a intenção de cadastro de uma agenda
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.AgendaRequestDto.NomeResponsavel">
+            <summary>
+            Nome do responsável pela agenda
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Dto.ContatoDto">
+            <summary>
+            Registra o contato da agenda
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.ContatoDto.Id">
+            <summary>
+            Id identificador do contato cadastrado
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.ContatoDto.Nome">
+            <summary>
+            Nome do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.ContatoDto.TipoContato">
+            <summary>
+            Relacionamento com este contato
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Dto.ContatoRequestDto">
+            <summary>
+            Registro a intenção de cadastro de um contato em uma agenda
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.ContatoRequestDto.Nome">
+            <summary>
+            Nome do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.ContatoRequestDto.TipoContato">
+            <summary>
+            Relacionamento com este contato
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Dto.TipoContato">
+            <summary>
+            Define as possibilidades da classificação deste contato
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Dto.TipoContato.Parente">
+            <summary>
+            Quando contato é um parente
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Dto.TipoContato.Amigo">
+            <summary>
+            Quando contato é um amigo
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Dto.TipoContato.Colega">
+            <summary>
+            Quando contato é um colega
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Dto.TipoContato.Desconhecido">
+            <summary>
+            Quando contato é um desconhecido
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Filters.EnumSchemaFilter">
+            <summary>
+            Aplicar filtro de enum
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.Filters.EnumSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
+            <summary>
+            Aplicar filtro
+            </summary>
+            <param name="schema">Schema</param>
+            <param name="context">Contexto</param>
+        </member>
+    </members>
+</doc>

@@ -1,3 +1,4 @@
+using DockerAgenda.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
+using System;
+using System.IO;
+using System.Text.Json.Serialization;
 
 namespace DockerAgenda
 {
@@ -22,7 +25,11 @@ namespace DockerAgenda
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
 
             services.AddApiVersioning(options =>
             {
@@ -47,10 +54,11 @@ namespace DockerAgenda
 
             services.AddSwaggerGen(options =>
             {
+                options.SchemaFilter<EnumSchemaFilter>();
+
                 foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
                 {
                     options.SwaggerDoc(
-                        //$"LibraryOpenAPISpecification{description.GroupName}",
                         description.GroupName,
                         new OpenApiInfo()
                         {
@@ -61,6 +69,10 @@ namespace DockerAgenda
                             License = new OpenApiLicense() { Name = "Marc Suporte Ti" }
                         });
                 }
+
+                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, "DockerAgenda.xml");
+
+                options.IncludeXmlComments(xmlCommentsFullPath);
             });
         }
 
