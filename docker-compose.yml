@@ -6,6 +6,18 @@ services:
     build:
       context: .
       dockerfile: src/DockerAgenda/Dockerfile
+    entrypoint:
+     - CONNECTIONSTRINGS:Server=sql_agenda_service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word
+    networks:
+     - net_agenda
+    depends_on:
+     - sql_agenda_service
+
+  sql_agenda_service:
+    image: microsoft/mssql-server-linux:2017-latest
+    environment:
+    - SA_PASSWORD=Pass@word
+    - ACCEPT_EULA=Y
     networks:
      - net_agenda
 
