@@ -3,7 +3,7 @@
 namespace DockerAgenda.Dto
 {
     /// <summary>
-    /// Registra o contato da agenda
+    /// Registro do contato cadastrado na agenda
     /// </summary>
     public class ContatoDto
     {

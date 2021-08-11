@@ -77,5 +77,12 @@ namespace DockerAgenda.Controllers
             var contato = new ContatoDto { Id = Guid.NewGuid() };
             return Ok(contato);
         }
+
+        [HttpPost("{id}/contatos/{idContato}")]
+        public async Task<ActionResult<ItemContatoDto>> PostItemContato(Guid id, Guid idContato, [FromBody] ItemContatoRequestDto itemContatoRequestDto)
+        {
+            var contato = new ItemContatoDto { Id = Guid.NewGuid() };
+            return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{id}/{contato.Id}", contato);
+        }
     }
 }
