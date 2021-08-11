@@ -1,10 +1,13 @@
 ﻿namespace DockerAgenda.Dto
 {
     /// <summary>
-    /// Registro da agenda para o contato
+    /// Registro a intenção de cadastro de uma agenda
     /// </summary>
     public class AgendaRequestDto
     {
+        /// <summary>
+        /// Nome do responsável pela agenda
+        /// </summary>
         public string NomeResponsavel { get; set; }
     }
 }

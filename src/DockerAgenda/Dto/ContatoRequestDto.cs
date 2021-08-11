@@ -1,17 +1,10 @@
-﻿using System;
-
-namespace DockerAgenda.Dto
+﻿namespace DockerAgenda.Dto
 {
     /// <summary>
-    /// Registra o contato da agenda
+    /// Registro a intenção de cadastro de um contato em uma agenda
     /// </summary>
-    public class ContatoDto
+    public class ContatoRequestDto
     {
-        /// <summary>
-        /// Id identificador do contato cadastrado
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Nome do contato
         /// </summary>
