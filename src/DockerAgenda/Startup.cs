@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace DockerAgenda
@@ -103,8 +104,8 @@ namespace DockerAgenda
         /// <summary>
         /// Configuração
         /// </summary>
-        /// <param name="app"></param>
-        /// <param name="env"></param>
+        /// <param name="app">Instância para configuração do pipeline de uma solicitação</param>
+        /// <param name="env">Instância para fornecer informações sobre o ambiente de execução</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -115,7 +116,7 @@ namespace DockerAgenda
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agenda v1"));
 
-            InicializarBaseDeDados(app);
+            MigracoesPendentes(app);
 
             app.UseRouting();
 
@@ -128,48 +129,27 @@ namespace DockerAgenda
         }
 
         /// <summary>
-        /// Inicialização do DB
+        /// Validando se existe pacote não aplicado no banco
         /// </summary>
-        /// <param name="app"></param>
-        private void InicializarBaseDeDados(IApplicationBuilder app)
+        /// <param name="app">Instância para configuração do pipeline de uma solicitação</param>
+        private void MigracoesPendentes(IApplicationBuilder app)
         {
-            //using var db = new DockerAgendaContext();
+            using var db = app
+                .ApplicationServices
+                .CreateScope()
+                .ServiceProvider
+                .GetRequiredService<DockerAgendaContext>();
 
-            //var migracoesPendentes = db.Database.GetPendingMigrations();
+            var migracoesPendentes = db.Database.GetPendingMigrations();
 
-            //if (migracoesPendentes.Any())
-            //{
-            //    db.Database.EnsureCreated();
-            //    //foreach (var migracao in migracoesPendentes)
-            //    //{
-            //    //    Console.WriteLine($"Migração: {migracao}");
-            //    //}
-            //}
-
-
-
-            //using var db = app
-            //    .ApplicationServices
-            //    .CreateScope()
-            //    .ServiceProvider
-            //    .GetRequiredService<DockerAgendaContext>();
-
-            //if (db.Database.EnsureCreated())
-            //{
-            //    db.Database.
-            //    //db.Departamentos.AddRange(Enumerable.Range(1, 10)
-            //    //    .Select(p => new Departamento
-            //    //    {
-            //    //        Descricao = $"Departamento - {p}",
-            //    //        Colaboradores = Enumerable.Range(1, 10)
-            //    //            .Select(x => new Colaborador
-            //    //            {
-            //    //                Nome = $"Colaborador: {x}/{p}"
-            //    //            }).ToList()
-            //    //    }));
-
-            //    //db.SaveChanges();
-            //}
+            if (migracoesPendentes.Any())
+            {
+                foreach (var migracao in migracoesPendentes)
+                {
+                    Console.WriteLine($"Migração: {migracao}");
+                }
+                db.Database.Migrate();
+            }
         }
     }
 }

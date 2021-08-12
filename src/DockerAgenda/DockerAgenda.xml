@@ -176,6 +176,11 @@
             Dados para registrar do contato
             </summary>
         </member>
+        <member name="P:DockerAgenda.Dto.ItemContatoDto.Observacao">
+            <summary>
+            Observação do item do contato incluído
+            </summary>
+        </member>
         <member name="P:DockerAgenda.Dto.ItemContatoDto.TipoItemContato">
             <summary>
             Define o tipo do item do contato
@@ -189,6 +194,11 @@
         <member name="P:DockerAgenda.Dto.ItemContatoRequestDto.Registro">
             <summary>
             Dados para registrar do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.ItemContatoRequestDto.Observacao">
+            <summary>
+            Observação do item do contato incluído
             </summary>
         </member>
         <member name="P:DockerAgenda.Dto.ItemContatoRequestDto.TipoItemContato">
@@ -329,6 +339,11 @@
         <member name="P:DockerAgenda.Entity.ItemContatoEntity.Registro">
             <summary>
             Dados para registrar do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ItemContatoEntity.Observacao">
+            <summary>
+            Observação do item do contato incluído
             </summary>
         </member>
         <member name="P:DockerAgenda.Entity.ItemContatoEntity.TipoItemContato">
@@ -538,14 +553,14 @@
             <summary>
             Configuração
             </summary>
-            <param name="app"></param>
-            <param name="env"></param>
+            <param name="app">Instância para configuração do pipeline de uma solicitação</param>
+            <param name="env">Instância para fornecer informações sobre o ambiente de execução</param>
         </member>
-        <member name="M:DockerAgenda.Startup.InicializarBaseDeDados(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+        <member name="M:DockerAgenda.Startup.MigracoesPendentes(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
-            Inicialização do DB
+            Validando se existe pacote não aplicado no banco
             </summary>
-            <param name="app"></param>
+            <param name="app">Instância para configuração do pipeline de uma solicitação</param>
         </member>
     </members>
 </doc>

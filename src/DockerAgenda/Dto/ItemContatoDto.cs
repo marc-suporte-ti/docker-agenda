@@ -18,6 +18,11 @@ namespace DockerAgenda.Dto
         public string Registro { get; set; }
 
         /// <summary>
+        /// Observação do item do contato incluído
+        /// </summary>
+        public string Observacao { get; set; }
+
+        /// <summary>
         /// Define o tipo do item do contato
         /// </summary>
         public TipoItemContato TipoItemContato { get; set; }
