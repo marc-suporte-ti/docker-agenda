@@ -1,7 +1,6 @@
 ﻿using DockerAgenda.Dto;
 using DockerAgenda.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -16,11 +15,6 @@ namespace DockerAgenda.Controllers
     public class AgendasController : ControllerBase
     {
         /// <summary>
-        /// Instância de log da aplicação
-        /// </summary>
-        private readonly ILogger<AgendasController> _logger;
-
-        /// <summary>
         /// Instância do serviço da api
         /// </summary>
         private readonly IAgendaService _agendaService;
@@ -28,13 +22,9 @@ namespace DockerAgenda.Controllers
         /// <summary>
         /// Construtor da controller responsável por gerenciar contatos de uma agenda
         /// </summary>
-        /// <param name="logger">Instância de log da aplicação</param>
         /// <param name="agendaService">Instância do serviço da api</param>
-        public AgendasController(
-            ILogger<AgendasController> logger,
-            IAgendaService agendaService)
+        public AgendasController(IAgendaService agendaService)
         {
-            _logger = logger;
             _agendaService = agendaService;
         }
 
