@@ -399,19 +399,35 @@
             Interface responsável por gerar o contrato do serviços da agenda
             </summary>
         </member>
-        <member name="M:DockerAgenda.Interfaces.IAgendaService.InserirAgenda(DockerAgenda.Dto.AgendaRequestDto)">
+        <member name="M:DockerAgenda.Interfaces.IAgendaService.InserirAgendaAsync(DockerAgenda.Dto.AgendaRequestDto)">
             <summary>
             Insere novo item na agenda
             </summary>
             <param name="agendaRequestDto">Request com os dados para inclusão</param>
             <returns>Agenda cadastrada</returns>
         </member>
-        <member name="M:DockerAgenda.Interfaces.IAgendaService.ConsultarAgenda(System.Guid)">
+        <member name="M:DockerAgenda.Interfaces.IAgendaService.ConsultarAgendaAsync(System.Guid)">
             <summary>
             Pesquisa a agenda solicitada
             </summary>
             <param name="id">Id da agenda</param>
             <returns>Agenda encontrada</returns>
+        </member>
+        <member name="M:DockerAgenda.Interfaces.IAgendaService.InserirContatoAsync(System.Guid,DockerAgenda.Dto.ContatoRequestDto)">
+            <summary>
+            Insere contato na agenda informada
+            </summary>
+            <param name="idAgenda">Id da agenda para inclusão</param>
+            <param name="contatoRequestDto">Dados do contato para inclusão</param>
+            <returns>Contato cadastrado</returns>
+        </member>
+        <member name="M:DockerAgenda.Interfaces.IAgendaService.ConsultarContatoAsync(System.Guid,System.Guid)">
+            <summary>
+            Pesquisa o contato da agenda
+            </summary>
+            <param name="idAgenda">Id da agenda para pesquisa</param>
+            <param name="idContato">Id do contato</param>
+            <returns>Dados do contato pesquisado</returns>
         </member>
         <member name="T:DockerAgenda.Service.AgendaService">
             <summary>
@@ -435,19 +451,34 @@
             <param name="contexto">Contexto com DB</param>
             <param name="mapper">Instância de mapper</param>
         </member>
-        <member name="M:DockerAgenda.Service.AgendaService.InserirAgenda(DockerAgenda.Dto.AgendaRequestDto)">
+        <member name="M:DockerAgenda.Service.AgendaService.InserirAgendaAsync(DockerAgenda.Dto.AgendaRequestDto)">
             <summary>
             Insere novo item na agenda
             </summary>
             <param name="agendaRequestDto">Request com os dados para inclusão</param>
             <returns>Agenda cadastrada</returns>
         </member>
-        <member name="M:DockerAgenda.Service.AgendaService.ConsultarAgenda(System.Guid)">
+        <member name="M:DockerAgenda.Service.AgendaService.ConsultarAgendaAsync(System.Guid)">
             <summary>
             Pesquisa a agenda solicitada
             </summary>
             <param name="id">Id da agenda</param>
             <returns>Agenda encontrada</returns>
+        </member>
+        <member name="M:DockerAgenda.Service.AgendaService.InserirContatoAsync(System.Guid,DockerAgenda.Dto.ContatoRequestDto)">
+            <summary>
+            Insere contato na agenda informada
+            </summary>
+            <param name="contatoRequestDto">Dados do contato para inclusão</param>
+            <returns>Contato cadastrado</returns>
+        </member>
+        <member name="M:DockerAgenda.Service.AgendaService.ConsultarContatoAsync(System.Guid,System.Guid)">
+            <summary>
+            Pesquisa o contato da agenda
+            </summary>
+            <param name="idAgenda">Id da agenda para pesquisa</param>
+            <param name="idContato">Id do contato</param>
+            <returns>Dados do contato pesquisado</returns>
         </member>
         <member name="T:DockerAgenda.Startup">
             <summary>

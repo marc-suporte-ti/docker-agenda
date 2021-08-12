@@ -36,7 +36,7 @@ namespace DockerAgenda.Controllers
         [HttpPost]
         public async Task<ActionResult<AgendaDto>> PostAgenda([FromBody] AgendaRequestDto agendaRequestDto)
         {
-            var agenda = await _agendaService.InserirAgenda(agendaRequestDto);
+            var agenda = await _agendaService.InserirAgendaAsync(agendaRequestDto);
 
             return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{agenda.Id}", agenda);
         }
@@ -49,7 +49,7 @@ namespace DockerAgenda.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AgendaDto>> GetAgenda(Guid id)
         {
-            var agenda = await _agendaService.ConsultarAgenda(id);
+            var agenda = await _agendaService.ConsultarAgendaAsync(id);
             return Ok(agenda);
         }
 
@@ -62,7 +62,7 @@ namespace DockerAgenda.Controllers
         [HttpPost("{id}/contatos")]
         public async Task<ActionResult<ContatoDto>> PostContato(Guid id, [FromBody] ContatoRequestDto contatoRequestDto)
         {
-            var contato = new ContatoDto { Id = Guid.NewGuid() };
+            var contato = await _agendaService.InserirContatoAsync(id, contatoRequestDto);
             return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{id}/{contato.Id}", contato);
         }
 
@@ -75,7 +75,7 @@ namespace DockerAgenda.Controllers
         [HttpGet("{id}/contatos/{idContato}")]
         public async Task<ActionResult<ContatoDto>> GetContato(Guid id, Guid idContato)
         {
-            var contato = new ContatoDto { Id = Guid.NewGuid() };
+            var contato = await _agendaService.ConsultarContatoAsync(id, idContato);
             return Ok(contato);
         }
 
