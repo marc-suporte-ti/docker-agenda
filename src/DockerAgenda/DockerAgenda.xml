@@ -50,6 +50,15 @@
             <param name="idContato">Id do contato para consulta</param>
             <returns>Contato encontrado</returns>
         </member>
+        <member name="M:DockerAgenda.Controllers.AgendasController.PostItemContato(System.Guid,System.Guid,DockerAgenda.Dto.ItemContatoRequestDto)">
+            <summary>
+            Inclusão de item no contato
+            </summary>
+            <param name="id">Id da agenda onde o contato foi cadastrado</param>
+            <param name="idContato">Id do contato para consulta</param>
+            <param name="itemContatoRequestDto">Dados do item para inclusão no contato</param>
+            <returns>Item incluído no contato</returns>
+        </member>
         <member name="T:DockerAgenda.Data.DockerAgendaContext">
             <summary>
             Contexto da aplicação
@@ -130,6 +139,11 @@
         <member name="P:DockerAgenda.Dto.ContatoDto.TipoContato">
             <summary>
             Relacionamento com este contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Dto.ContatoDto.ItensContato">
+            <summary>
+            Lista de contatos da agenda
             </summary>
         </member>
         <member name="T:DockerAgenda.Dto.ContatoRequestDto">
@@ -429,6 +443,15 @@
             <param name="idContato">Id do contato</param>
             <returns>Dados do contato pesquisado</returns>
         </member>
+        <member name="M:DockerAgenda.Interfaces.IAgendaService.InserirItemContatoAsync(System.Guid,System.Guid,DockerAgenda.Dto.ItemContatoRequestDto)">
+            <summary>
+            Insere item no contato
+            </summary>
+            <param name="idAgenda">Id da agenda para validação</param>
+            <param name="idContato">Id do contato para vallidação</param>
+            <param name="itemContatoRequestDto">Dados do item do contato para inclusão</param>
+            <returns>Item incluído no contato</returns>
+        </member>
         <member name="T:DockerAgenda.Service.AgendaService">
             <summary>
             Implementação do contrato responsável por gerar o contrato do serviços da agenda
@@ -479,6 +502,15 @@
             <param name="idAgenda">Id da agenda para pesquisa</param>
             <param name="idContato">Id do contato</param>
             <returns>Dados do contato pesquisado</returns>
+        </member>
+        <member name="M:DockerAgenda.Service.AgendaService.InserirItemContatoAsync(System.Guid,System.Guid,DockerAgenda.Dto.ItemContatoRequestDto)">
+            <summary>
+            Insere item no contato
+            </summary>
+            <param name="idAgenda">Id da agenda para validação</param>
+            <param name="idContato">Id do contato para vallidação</param>
+            <param name="itemContatoRequestDto">Dados do item do contato para inclusão</param>
+            <returns>Item incluído no contato</returns>
         </member>
         <member name="T:DockerAgenda.Startup">
             <summary>

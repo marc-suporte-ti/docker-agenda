@@ -12,7 +12,7 @@ namespace DockerAgenda.Mappings
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Nome, act => act.MapFrom(src => src.Nome))
                 .ForMember(dest => dest.TipoContato, act => act.MapFrom(src => src.TipoContato))
-                //.ForMember(dest => dest.ItensContato, act => act.MapFrom(src => src.ItensContato))
+                .ForMember(dest => dest.ItensContato, act => act.MapFrom(src => src.ItensContato))
                 .ForAllOtherMembers(opt => opt.Ignore());
         }
     }

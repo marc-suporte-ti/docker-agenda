@@ -38,5 +38,14 @@ namespace DockerAgenda.Interfaces
         /// <param name="idContato">Id do contato</param>
         /// <returns>Dados do contato pesquisado</returns>
         Task<ContatoDto> ConsultarContatoAsync(Guid idAgenda, Guid idContato);
+
+        /// <summary>
+        /// Insere item no contato
+        /// </summary>
+        /// <param name="idAgenda">Id da agenda para validação</param>
+        /// <param name="idContato">Id do contato para vallidação</param>
+        /// <param name="itemContatoRequestDto">Dados do item do contato para inclusão</param>
+        /// <returns>Item incluído no contato</returns>
+        Task<ItemContatoDto> InserirItemContatoAsync(Guid idAgenda, Guid idContato, ItemContatoRequestDto itemContatoRequestDto);
     }
 }

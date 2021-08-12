@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DockerAgenda.Dto
 {
@@ -21,5 +22,10 @@ namespace DockerAgenda.Dto
         /// Relacionamento com este contato
         /// </summary>
         public TipoContato TipoContato { get; set; }
+
+        /// <summary>
+        /// Lista de contatos da agenda
+        /// </summary>
+        public IEnumerable<ItemContatoDto> ItensContato { get; set; }
     }
 }

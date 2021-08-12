@@ -88,5 +88,23 @@ namespace DockerAgenda.Service
             var contato = await _contexto.Contatos.FirstOrDefaultAsync(contato => contato.AgendaId == idAgenda && contato.Id == idContato);
             return _mapper.Map<ContatoDto>(contato);
         }
+
+        /// <summary>
+        /// Insere item no contato
+        /// </summary>
+        /// <param name="idAgenda">Id da agenda para validação</param>
+        /// <param name="idContato">Id do contato para vallidação</param>
+        /// <param name="itemContatoRequestDto">Dados do item do contato para inclusão</param>
+        /// <returns>Item incluído no contato</returns>
+        public async Task<ItemContatoDto> InserirItemContatoAsync(Guid idAgenda, Guid idContato, ItemContatoRequestDto itemContatoRequestDto)
+        {
+            var contato = await _contexto.Contatos.FirstOrDefaultAsync(contato => contato.AgendaId == idAgenda && contato.Id == idContato);
+            var itemContato = _mapper.Map<ItemContatoEntity>(itemContatoRequestDto);
+            itemContato.Contato = contato;
+            itemContato.ContatoEntityId = contato.Id;
+            await _contexto.ItensContatos.AddAsync(itemContato);
+            await _contexto.SaveChangesAsync();
+            return _mapper.Map<ItemContatoDto>(itemContato);
+        }
     }
 }

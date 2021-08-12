@@ -11,7 +11,7 @@ namespace DockerAgenda.Mappings
             CreateMap<AgendaEntity, AgendaDto>()
                 .ForMember(dest => dest.Id, act => act.MapFrom(src => src.Id))
                 .ForMember(dest => dest.NomeResponsavel, act => act.MapFrom(src => src.NomeResponsavel))
-                //.ForMember(dest => dest.Contatos, act => act.MapFrom(src => src.Contatos))
+                .ForMember(dest => dest.Contatos, act => act.MapFrom(src => src.Contatos))
                 .ForAllOtherMembers(opt => opt.Ignore());
         }
     }

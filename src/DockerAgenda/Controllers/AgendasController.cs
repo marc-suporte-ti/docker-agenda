@@ -63,7 +63,7 @@ namespace DockerAgenda.Controllers
         public async Task<ActionResult<ContatoDto>> PostContato(Guid id, [FromBody] ContatoRequestDto contatoRequestDto)
         {
             var contato = await _agendaService.InserirContatoAsync(id, contatoRequestDto);
-            return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{id}/{contato.Id}", contato);
+            return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{id}/contatos/{contato.Id}", contato);
         }
 
         /// <summary>
@@ -79,11 +79,18 @@ namespace DockerAgenda.Controllers
             return Ok(contato);
         }
 
+        /// <summary>
+        /// Inclusão de item no contato
+        /// </summary>
+        /// <param name="id">Id da agenda onde o contato foi cadastrado</param>
+        /// <param name="idContato">Id do contato para consulta</param>
+        /// <param name="itemContatoRequestDto">Dados do item para inclusão no contato</param>
+        /// <returns>Item incluído no contato</returns>
         [HttpPost("{id}/contatos/{idContato}")]
         public async Task<ActionResult<ItemContatoDto>> PostItemContato(Guid id, Guid idContato, [FromBody] ItemContatoRequestDto itemContatoRequestDto)
         {
-            var contato = new ItemContatoDto { Id = Guid.NewGuid() };
-            return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{id}/{contato.Id}", contato);
+            var itemContato = await _agendaService.InserirItemContatoAsync(id, idContato, itemContatoRequestDto);
+            return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{id}/contatos/{idContato}/{itemContato.Id}", itemContato);
         }
     }
 }
