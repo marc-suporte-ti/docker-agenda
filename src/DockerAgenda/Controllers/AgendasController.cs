@@ -1,4 +1,5 @@
 ﻿using DockerAgenda.Dto;
+using DockerAgenda.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -20,12 +21,21 @@ namespace DockerAgenda.Controllers
         private readonly ILogger<AgendasController> _logger;
 
         /// <summary>
+        /// Instância do serviço da api
+        /// </summary>
+        private readonly IAgendaService _agendaService;
+
+        /// <summary>
         /// Construtor da controller responsável por gerenciar contatos de uma agenda
         /// </summary>
         /// <param name="logger">Instância de log da aplicação</param>
-        public AgendasController(ILogger<AgendasController> logger)
+        /// <param name="agendaService">Instância do serviço da api</param>
+        public AgendasController(
+            ILogger<AgendasController> logger,
+            IAgendaService agendaService)
         {
             _logger = logger;
+            _agendaService = agendaService;
         }
 
         /// <summary>
@@ -36,7 +46,8 @@ namespace DockerAgenda.Controllers
         [HttpPost]
         public async Task<ActionResult<AgendaDto>> PostAgenda([FromBody] AgendaRequestDto agendaRequestDto)
         {
-            var agenda = new AgendaDto { Id = Guid.NewGuid() };
+            var agenda = await _agendaService.InserrirAdenga(agendaRequestDto);
+
             return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{agenda.Id}", agenda);
         }
 

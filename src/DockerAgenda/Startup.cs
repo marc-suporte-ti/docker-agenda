@@ -1,5 +1,7 @@
 using DockerAgenda.Data;
 using DockerAgenda.Filters;
+using DockerAgenda.Interfaces;
+using DockerAgenda.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
-using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace DockerAgenda
@@ -93,6 +94,10 @@ namespace DockerAgenda
 
             services.AddDbContext<DockerAgendaContext>(p =>
                 p.UseSqlServer(Configuration.GetSection("ConnectionStrings").Get<string>()));
+
+            services.AddScoped<IAgendaService, AgendaService>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         /// <summary>
