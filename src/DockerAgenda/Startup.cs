@@ -128,18 +128,18 @@ namespace DockerAgenda
         /// <param name="app"></param>
         private void InicializarBaseDeDados(IApplicationBuilder app)
         {
-            using var db = new DockerAgendaContext();
+            //using var db = new DockerAgendaContext();
 
-            var migracoesPendentes = db.Database.GetPendingMigrations();
+            //var migracoesPendentes = db.Database.GetPendingMigrations();
 
-            if (migracoesPendentes.Any())
-            {
-                db.Database.EnsureCreated();
-                //foreach (var migracao in migracoesPendentes)
-                //{
-                //    Console.WriteLine($"Migração: {migracao}");
-                //}
-            }
+            //if (migracoesPendentes.Any())
+            //{
+            //    db.Database.EnsureCreated();
+            //    //foreach (var migracao in migracoesPendentes)
+            //    //{
+            //    //    Console.WriteLine($"Migração: {migracao}");
+            //    //}
+            //}
 
 
 
