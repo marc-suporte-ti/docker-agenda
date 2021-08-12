@@ -92,6 +92,11 @@
             Id identificador da agenda cadastrada
             </summary>
         </member>
+        <member name="P:DockerAgenda.Dto.AgendaDto.NomeResponsavel">
+            <summary>
+            Nome do responsável pela agenda
+            </summary>
+        </member>
         <member name="P:DockerAgenda.Dto.AgendaDto.Contatos">
             <summary>
             Lista de contatos da agenda
@@ -235,6 +240,11 @@
         <member name="P:DockerAgenda.Entity.AgendaEntity.Id">
             <summary>
             Id identificador da agenda cadastrada
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.AgendaEntity.NomeResponsavel">
+            <summary>
+            Nome do responsável pela agenda
             </summary>
         </member>
         <member name="P:DockerAgenda.Entity.AgendaEntity.Contatos">
