@@ -150,6 +150,14 @@ namespace DockerAgenda
                 }
                 db.Database.Migrate();
             }
+
+            // Adiantando abertura da conexão
+            db.Database.GetDbConnection().Open();
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "SELECT 1";
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }
