@@ -57,7 +57,10 @@ namespace DockerAgenda.Service
         /// <returns>Agenda encontrada</returns>
         public async Task<AgendaDto> ConsultarAgendaAsync(Guid id)
         {
-            var agenda = await _contexto.Agendas.FindAsync(id);
+            var agenda = await _contexto.Agendas
+                .Include(agenda => agenda.Contatos)
+                .ThenInclude(contato => contato.ItensContato)
+                .FirstOrDefaultAsync(agenda => agenda.Id == id);
             return _mapper.Map<AgendaDto>(agenda);
         }
 
@@ -85,7 +88,9 @@ namespace DockerAgenda.Service
         /// <returns>Dados do contato pesquisado</returns>
         public async Task<ContatoDto> ConsultarContatoAsync(Guid idAgenda, Guid idContato)
         {
-            var contato = await _contexto.Contatos.FirstOrDefaultAsync(contato => contato.AgendaId == idAgenda && contato.Id == idContato);
+            var contato = await _contexto.Contatos
+                .Include(contato => contato.ItensContato)
+                .FirstOrDefaultAsync(contato => contato.AgendaId == idAgenda && contato.Id == idContato);
             return _mapper.Map<ContatoDto>(contato);
         }
 
