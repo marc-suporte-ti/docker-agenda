@@ -9,21 +9,15 @@
             Controller responsável por gerenciar contatos de uma agenda
             </summary>
         </member>
-        <member name="F:DockerAgenda.Controllers.AgendasController._logger">
-            <summary>
-            Instância de log da aplicação
-            </summary>
-        </member>
         <member name="F:DockerAgenda.Controllers.AgendasController._agendaService">
             <summary>
             Instância do serviço da api
             </summary>
         </member>
-        <member name="M:DockerAgenda.Controllers.AgendasController.#ctor(Microsoft.Extensions.Logging.ILogger{DockerAgenda.Controllers.AgendasController},DockerAgenda.Interfaces.IAgendaService)">
+        <member name="M:DockerAgenda.Controllers.AgendasController.#ctor(DockerAgenda.Interfaces.IAgendaService)">
             <summary>
             Construtor da controller responsável por gerenciar contatos de uma agenda
             </summary>
-            <param name="logger">Instância de log da aplicação</param>
             <param name="agendaService">Instância do serviço da api</param>
         </member>
         <member name="M:DockerAgenda.Controllers.AgendasController.PostAgenda(DockerAgenda.Dto.AgendaRequestDto)">
@@ -268,6 +262,11 @@
             Registro do contato cadastrado na agenda
             </summary>
         </member>
+        <member name="M:DockerAgenda.Entity.ContatoEntity.#ctor">
+            <summary>
+            Construtor do registro contato cadastrado na agenda
+            </summary>
+        </member>
         <member name="P:DockerAgenda.Entity.ContatoEntity.Id">
             <summary>
             Id identificador do contato cadastrado
@@ -301,6 +300,11 @@
         <member name="T:DockerAgenda.Entity.ItemContatoEntity">
             <summary>
             Registro do item do contato de um agenda cadastrada
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.Entity.ItemContatoEntity.#ctor">
+            <summary>
+            Construtor do registro do item do contato de um agenda cadastrada
             </summary>
         </member>
         <member name="P:DockerAgenda.Entity.ItemContatoEntity.Id">
@@ -395,12 +399,19 @@
             Interface responsável por gerar o contrato do serviços da agenda
             </summary>
         </member>
-        <member name="M:DockerAgenda.Interfaces.IAgendaService.InserrirAdenga(DockerAgenda.Dto.AgendaRequestDto)">
+        <member name="M:DockerAgenda.Interfaces.IAgendaService.InserirAgenda(DockerAgenda.Dto.AgendaRequestDto)">
             <summary>
             Insere novo item na agenda
             </summary>
             <param name="agendaRequestDto">Request com os dados para inclusão</param>
             <returns>Agenda cadastrada</returns>
+        </member>
+        <member name="M:DockerAgenda.Interfaces.IAgendaService.ConsultarAgenda(System.Guid)">
+            <summary>
+            Pesquisa a agenda solicitada
+            </summary>
+            <param name="id">Id da agenda</param>
+            <returns>Agenda encontrada</returns>
         </member>
         <member name="T:DockerAgenda.Service.AgendaService">
             <summary>
@@ -424,12 +435,19 @@
             <param name="contexto">Contexto com DB</param>
             <param name="mapper">Instância de mapper</param>
         </member>
-        <member name="M:DockerAgenda.Service.AgendaService.InserrirAdenga(DockerAgenda.Dto.AgendaRequestDto)">
+        <member name="M:DockerAgenda.Service.AgendaService.InserirAgenda(DockerAgenda.Dto.AgendaRequestDto)">
             <summary>
             Insere novo item na agenda
             </summary>
             <param name="agendaRequestDto">Request com os dados para inclusão</param>
             <returns>Agenda cadastrada</returns>
+        </member>
+        <member name="M:DockerAgenda.Service.AgendaService.ConsultarAgenda(System.Guid)">
+            <summary>
+            Pesquisa a agenda solicitada
+            </summary>
+            <param name="id">Id da agenda</param>
+            <returns>Agenda encontrada</returns>
         </member>
         <member name="T:DockerAgenda.Startup">
             <summary>

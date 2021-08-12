@@ -36,7 +36,7 @@ namespace DockerAgenda.Controllers
         [HttpPost]
         public async Task<ActionResult<AgendaDto>> PostAgenda([FromBody] AgendaRequestDto agendaRequestDto)
         {
-            var agenda = await _agendaService.InserrirAdenga(agendaRequestDto);
+            var agenda = await _agendaService.InserirAgenda(agendaRequestDto);
 
             return Created($"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}{HttpContext.Request.Path}/{agenda.Id}", agenda);
         }
@@ -49,7 +49,7 @@ namespace DockerAgenda.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AgendaDto>> GetAgenda(Guid id)
         {
-            var agenda = new AgendaDto { Id = Guid.NewGuid() };
+            var agenda = await _agendaService.ConsultarAgenda(id);
             return Ok(agenda);
         }
 

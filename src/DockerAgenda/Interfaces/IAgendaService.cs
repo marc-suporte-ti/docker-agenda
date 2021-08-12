@@ -1,4 +1,5 @@
 ﻿using DockerAgenda.Dto;
+using System;
 using System.Threading.Tasks;
 
 namespace DockerAgenda.Interfaces
@@ -13,6 +14,13 @@ namespace DockerAgenda.Interfaces
         /// </summary>
         /// <param name="agendaRequestDto">Request com os dados para inclusão</param>
         /// <returns>Agenda cadastrada</returns>
-        Task<AgendaDto> InserrirAdenga(AgendaRequestDto agendaRequestDto);
+        Task<AgendaDto> InserirAgenda(AgendaRequestDto agendaRequestDto);
+
+        /// <summary>
+        /// Pesquisa a agenda solicitada
+        /// </summary>
+        /// <param name="id">Id da agenda</param>
+        /// <returns>Agenda encontrada</returns>
+        Task<AgendaDto> ConsultarAgenda(Guid id);
     }
 }

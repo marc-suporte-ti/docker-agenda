@@ -9,6 +9,14 @@ namespace DockerAgenda.Entity
     public class ContatoEntity
     {
         /// <summary>
+        /// Construtor do registro contato cadastrado na agenda
+        /// </summary>
+        public ContatoEntity()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        /// <summary>
         /// Id identificador do contato cadastrado
         /// </summary>
         public Guid Id { get; set; }
