@@ -16,16 +16,29 @@ using System.Text.Json.Serialization;
 
 namespace DockerAgenda
 {
+    /// <summary>
+    /// Classe de inicialização da aplicação
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Construtor da classe de inicialização da aplicação
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Configuração da aplicação
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Configuração do serviço
+        /// </summary>
+        /// <param name="services">Serviço de registro da aplicação</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
@@ -82,7 +95,11 @@ namespace DockerAgenda
                 p.UseSqlServer(Configuration.GetSection("ConnectionStrings").Get<string>()));
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// Configuração
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -105,6 +122,10 @@ namespace DockerAgenda
             });
         }
 
+        /// <summary>
+        /// Inicialização do DB
+        /// </summary>
+        /// <param name="app"></param>
         private void InicializarBaseDeDados(IApplicationBuilder app)
         {
             using var db = new DockerAgendaContext();
@@ -120,7 +141,7 @@ namespace DockerAgenda
                 //}
             }
 
-            
+
 
             //using var db = app
             //    .ApplicationServices
@@ -145,7 +166,5 @@ namespace DockerAgenda
             //    //db.SaveChanges();
             //}
         }
-
-
     }
 }

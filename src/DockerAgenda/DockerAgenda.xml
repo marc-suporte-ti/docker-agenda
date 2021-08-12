@@ -50,6 +50,32 @@
             <param name="idContato">Id do contato para consulta</param>
             <returns>Contato encontrado</returns>
         </member>
+        <member name="T:DockerAgenda.Data.DockerAgendaContext">
+            <summary>
+            Configurando contexto da aplicação
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Data.DockerAgendaContext.Agendas">
+            <summary>
+            Tabela de agendas
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Data.DockerAgendaContext.Contatos">
+            <summary>
+            Tabela de contatos
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Data.DockerAgendaContext.ItensContatos">
+            <summary>
+            Tabela de itens do contato
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.Data.DockerAgendaContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            <summary>
+            Configuração do contexto
+            </summary>
+            <param name="optionsBuilder"></param>
+        </member>
         <member name="T:DockerAgenda.Dto.AgendaDto">
             <summary>
             Registro da agenda cadastrada
@@ -195,6 +221,136 @@
             Quando tipo do contato é um outros
             </summary>
         </member>
+        <member name="T:DockerAgenda.Entity.AgendaEntity">
+            <summary>
+            Registro da agenda cadastrada
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.AgendaEntity.Id">
+            <summary>
+            Id identificador da agenda cadastrada
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.AgendaEntity.Contatos">
+            <summary>
+            Lista de contatos da agenda
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Entity.ContatoEntity">
+            <summary>
+            Registro do contato cadastrado na agenda
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ContatoEntity.Id">
+            <summary>
+            Id identificador do contato cadastrado
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ContatoEntity.Nome">
+            <summary>
+            Nome do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ContatoEntity.TipoContato">
+            <summary>
+            Relacionamento com este contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ContatoEntity.ItensContato">
+            <summary>
+            Lista de itens do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ContatoEntity.AgendaId">
+            <summary>
+            Referência para o ID da agenda
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ContatoEntity.Agenda">
+            <summary>
+            Propriedade de nagaveção para a agenda
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Entity.ItemContatoEntity">
+            <summary>
+            Registro do item do contato de um agenda cadastrada
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ItemContatoEntity.Id">
+            <summary>
+            Id identificador da agenda cadastrada
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ItemContatoEntity.Registro">
+            <summary>
+            Dados para registrar do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ItemContatoEntity.TipoItemContato">
+            <summary>
+            Define o tipo do item do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ItemContatoEntity.ContatoEntityId">
+            <summary>
+            Referência para o ID do contato
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.Entity.ItemContatoEntity.Contato">
+            <summary>
+            Propriedade de nagaveção para o contato
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Entity.TipoContato">
+            <summary>
+            Define as possibilidades da classificação deste contato
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Entity.TipoContato.Parente">
+            <summary>
+            Quando contato é um parente
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Entity.TipoContato.Amigo">
+            <summary>
+            Quando contato é um amigo
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Entity.TipoContato.Colega">
+            <summary>
+            Quando contato é um colega
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Entity.TipoContato.Desconhecido">
+            <summary>
+            Quando contato é um desconhecido
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.Entity.TipoItemContato">
+            <summary>
+            Define as possibilidades da classificação deste contato
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Entity.TipoItemContato.Telefone">
+            <summary>
+            Quando tipo do contato é um telefone
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Entity.TipoItemContato.Email">
+            <summary>
+            Quando tipo do contato é um email
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Entity.TipoItemContato.Fax">
+            <summary>
+            Quando tipo do contato é um fax
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.Entity.TipoItemContato.Outros">
+            <summary>
+            Quando tipo do contato é um outros
+            </summary>
+        </member>
         <member name="T:DockerAgenda.Filters.EnumSchemaFilter">
             <summary>
             Aplicar filtro de enum
@@ -206,6 +362,41 @@
             </summary>
             <param name="schema">Schema</param>
             <param name="context">Contexto</param>
+        </member>
+        <member name="T:DockerAgenda.Startup">
+            <summary>
+            Classe de inicialização da aplicação
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Construtor da classe de inicialização da aplicação
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:DockerAgenda.Startup.Configuration">
+            <summary>
+            Configuração da aplicação
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configuração do serviço
+            </summary>
+            <param name="services">Serviço de registro da aplicação</param>
+        </member>
+        <member name="M:DockerAgenda.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Configuração
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+        <member name="M:DockerAgenda.Startup.InicializarBaseDeDados(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Inicialização do DB
+            </summary>
+            <param name="app"></param>
         </member>
     </members>
 </doc>
