@@ -9,6 +9,7 @@ namespace DockerAgenda.Controllers
     /// <summary>
     /// Controller responsável por gerenciar contatos de uma agenda
     /// </summary>
+    [Produces("application/json", "application/xml")]
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/agendas")]

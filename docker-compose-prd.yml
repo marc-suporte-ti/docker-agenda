@@ -2,17 +2,17 @@ version: '3.4'
 
 services:
   agenda_service:
-    image: ${DOCKER_REGISTRY-}dockeragenda
+    image: marcioalmeidarosa/api_agenda:latest
     hostname: agenda_service
     labels:
       - NAME=agenda_service
-    build:
-      context: .
-      dockerfile: src/DockerAgenda/Dockerfile
     environment:
-     - CONNECTIONSTRINGS:Server=sql_agenda_service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word
+     - CONNECTION__CONNECTIONSTRINGS=Server=sql_agenda_service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word
     networks:
      - net_agenda
+    ports:
+      - "80:80"
+      - "443:443"
     depends_on:
      - sql_agenda_service
 
@@ -29,6 +29,8 @@ services:
      - sql_agenda_service_volume:/var/opt/mssql
     networks:
      - net_agenda
+    ports:
+      - "1433:1433"
 
 volumes:
   sql_agenda_service_volume:
