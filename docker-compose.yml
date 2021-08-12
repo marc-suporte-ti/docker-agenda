@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: src/DockerAgenda/Dockerfile
     environment:
-     - CONNECTION__CONNECTIONSTRINGS:Server=sql_agenda_service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word
+     - CONNECTION__CONNECTIONSTRINGS=Server=sql_agenda_service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word
     networks:
      - net_agenda
     depends_on:
