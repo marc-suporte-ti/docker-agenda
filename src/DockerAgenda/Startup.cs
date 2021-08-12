@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace DockerAgenda
@@ -77,8 +78,8 @@ namespace DockerAgenda
                 options.IncludeXmlComments(xmlCommentsFullPath);
             });
 
-            //services.AddDbContext<DockerAgendaContext>(p =>
-            //    p.UseSqlServer(Configuration.GetSection("ConnectionStrings").Get<string>()));
+            services.AddDbContext<DockerAgendaContext>(p =>
+                p.UseSqlServer(Configuration.GetSection("ConnectionStrings").Get<string>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,6 +93,8 @@ namespace DockerAgenda
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agenda v1"));
 
+            InicializarBaseDeDados(app);
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -101,5 +104,48 @@ namespace DockerAgenda
                 endpoints.MapControllers();
             });
         }
+
+        private void InicializarBaseDeDados(IApplicationBuilder app)
+        {
+            using var db = new DockerAgendaContext();
+
+            var migracoesPendentes = db.Database.GetPendingMigrations();
+
+            if (migracoesPendentes.Any())
+            {
+                db.Database.EnsureCreated();
+                //foreach (var migracao in migracoesPendentes)
+                //{
+                //    Console.WriteLine($"Migração: {migracao}");
+                //}
+            }
+
+            
+
+            //using var db = app
+            //    .ApplicationServices
+            //    .CreateScope()
+            //    .ServiceProvider
+            //    .GetRequiredService<DockerAgendaContext>();
+
+            //if (db.Database.EnsureCreated())
+            //{
+            //    db.Database.
+            //    //db.Departamentos.AddRange(Enumerable.Range(1, 10)
+            //    //    .Select(p => new Departamento
+            //    //    {
+            //    //        Descricao = $"Departamento - {p}",
+            //    //        Colaboradores = Enumerable.Range(1, 10)
+            //    //            .Select(x => new Colaborador
+            //    //            {
+            //    //                Nome = $"Colaborador: {x}/{p}"
+            //    //            }).ToList()
+            //    //    }));
+
+            //    //db.SaveChanges();
+            //}
+        }
+
+
     }
 }

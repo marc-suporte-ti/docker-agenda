@@ -14,7 +14,7 @@ services:
      - sql_agenda_service
 
   sql_agenda_service:
-    image: microsoft/mssql-server-linux:2017-latest
+    image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
     - SA_PASSWORD=Pass@word
     - ACCEPT_EULA=Y
