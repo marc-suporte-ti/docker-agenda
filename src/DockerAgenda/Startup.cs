@@ -94,7 +94,7 @@ namespace DockerAgenda
             });
 
             services.AddDbContext<DockerAgendaContext>(p =>
-                p.UseSqlServer(Configuration.GetSection("ConnectionStrings").Get<string>()));
+                p.UseSqlServer(Configuration.GetSection("Connection:ConnectionStrings").Get<string>()));
 
             services.AddScoped<IAgendaService, AgendaService>();
 

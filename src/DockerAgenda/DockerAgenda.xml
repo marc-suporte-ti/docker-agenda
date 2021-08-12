@@ -467,6 +467,24 @@
             <param name="itemContatoRequestDto">Dados do item do contato para inclusão</param>
             <returns>Item incluído no contato</returns>
         </member>
+        <member name="T:DockerAgenda.Program">
+            <summary>
+            Classe de execução inicial
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.Program.Main(System.String[])">
+            <summary>
+            Metodo para start da aplicação
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:DockerAgenda.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Iniciando configuração inicial da aplicação
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:DockerAgenda.Service.AgendaService">
             <summary>
             Implementação do contrato responsável por gerar o contrato do serviços da agenda
