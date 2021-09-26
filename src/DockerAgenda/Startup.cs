@@ -80,7 +80,7 @@ namespace DockerAgenda
                         description.GroupName,
                         new OpenApiInfo()
                         {
-                            Title = "Api Agenda",
+                            Title = string.Format("Api Agenda - Ambiente[{0}]", Configuration.GetSection("Ambiente").Get<string>()),
                             Version = description.ApiVersion.ToString(),
                             Description = "Api de agenda, gerencia seus contatos." + (description.IsDeprecated ? " Esta versão esta depreciada." : string.Empty),
                             Contact = new OpenApiContact() { Email = "marcio.almeida.rosa@gmail.com", Name = "Marcio de Almeida Rosa" },
