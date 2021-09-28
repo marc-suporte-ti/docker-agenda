@@ -3,7 +3,9 @@ using DockerAgenda.Filters;
 using DockerAgenda.Interfaces;
 using DockerAgenda.Service;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,8 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace DockerAgenda
@@ -68,7 +72,7 @@ namespace DockerAgenda
             });
 
             var apiVersionDescriptionProvider =
-                services.BuildServiceProvider().GetService<IApiVersionDescriptionProvider>();
+                BuildServiceProvider(services).GetService<IApiVersionDescriptionProvider>();
 
             services.AddSwaggerGen(options =>
             {
@@ -99,6 +103,18 @@ namespace DockerAgenda
             services.AddScoped<IAgendaService, AgendaService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddHealthChecks();
+        }
+
+        /// <summary>
+        /// Gerar ServiceProvider
+        /// </summary>
+        /// <param name="services">Serviço de registro da aplicação</param>
+        /// <returns>ServiceProvider</returns>
+        private static ServiceProvider BuildServiceProvider(IServiceCollection services)
+        {
+            return services.BuildServiceProvider();
         }
 
         /// <summary>
@@ -118,6 +134,24 @@ namespace DockerAgenda
 
             MigracoesPendentes(app);
 
+            app.UseHealthChecks("/status-text");
+            app.UseHealthChecks("/status-json",
+                new HealthCheckOptions()
+                {
+                    ResponseWriter = async (context, report) =>
+                    {
+                        var result = JsonSerializer.Serialize(
+                            new
+                            {
+                                currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                statusApplication = report.Status.ToString(),
+                            });
+
+                        context.Response.ContentType = MediaTypeNames.Application.Json;
+                        await context.Response.WriteAsync(result);
+                    }
+                });
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -126,6 +160,8 @@ namespace DockerAgenda
             {
                 endpoints.MapControllers();
             });
+
+
         }
 
         /// <summary>

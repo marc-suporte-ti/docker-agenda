@@ -525,6 +525,7 @@
             <summary>
             Insere contato na agenda informada
             </summary>
+            <param name="idAgenda">Id da agenda para inclusão</param>
             <param name="contatoRequestDto">Dados do contato para inclusão</param>
             <returns>Contato cadastrado</returns>
         </member>
@@ -566,6 +567,13 @@
             Configuração do serviço
             </summary>
             <param name="services">Serviço de registro da aplicação</param>
+        </member>
+        <member name="M:DockerAgenda.Startup.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Gerar ServiceProvider
+            </summary>
+            <param name="services">Serviço de registro da aplicação</param>
+            <returns>ServiceProvider</returns>
         </member>
         <member name="M:DockerAgenda.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>

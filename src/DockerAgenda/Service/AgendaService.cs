@@ -67,6 +67,7 @@ namespace DockerAgenda.Service
         /// <summary>
         /// Insere contato na agenda informada
         /// </summary>
+        /// <param name="idAgenda">Id da agenda para inclusão</param>
         /// <param name="contatoRequestDto">Dados do contato para inclusão</param>
         /// <returns>Contato cadastrado</returns>
         public async Task<ContatoDto> InserirContatoAsync(Guid idAgenda, ContatoRequestDto contatoRequestDto)

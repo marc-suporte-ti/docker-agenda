@@ -15,6 +15,11 @@ services:
      - net_agenda
     depends_on:
      - sql_agenda_service
+    healthcheck:
+       test: ["CMD", "curl", "-f", "https://agenda_service:4443/status-json"]
+       interval: 5s
+       timeout: 10s
+       retries: 5
 
   sql_agenda_service:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -29,6 +34,7 @@ services:
      - sql_agenda_service_volume:/var/opt/mssql
     networks:
      - net_agenda
+
 
 volumes:
   sql_agenda_service_volume:
