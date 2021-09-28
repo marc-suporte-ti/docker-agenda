@@ -1,5 +1,6 @@
 using DockerAgenda.Data;
 using DockerAgenda.Filters;
+using DockerAgenda.HealthChecks;
 using DockerAgenda.Interfaces;
 using DockerAgenda.Service;
 using Microsoft.AspNetCore.Builder;
@@ -11,14 +12,18 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mime;
+using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace DockerAgenda
 {
@@ -104,17 +109,7 @@ namespace DockerAgenda
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddHealthChecks();
-        }
-
-        /// <summary>
-        /// Gerar ServiceProvider
-        /// </summary>
-        /// <param name="services">Serviço de registro da aplicação</param>
-        /// <returns>ServiceProvider</returns>
-        private static ServiceProvider BuildServiceProvider(IServiceCollection services)
-        {
-            return services.BuildServiceProvider();
+            services.AddHealthChecksCustom(Convert.ToInt64(Configuration.GetSection("MemoryCheckOptions:Threshold").Value));
         }
 
         /// <summary>
@@ -134,23 +129,8 @@ namespace DockerAgenda
 
             MigracoesPendentes(app);
 
-            app.UseHealthChecks("/status-text");
-            app.UseHealthChecks("/status-json",
-                new HealthCheckOptions()
-                {
-                    ResponseWriter = async (context, report) =>
-                    {
-                        var result = JsonSerializer.Serialize(
-                            new
-                            {
-                                currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                                statusApplication = report.Status.ToString(),
-                            });
-
-                        context.Response.ContentType = MediaTypeNames.Application.Json;
-                        await context.Response.WriteAsync(result);
-                    }
-                });
+            //Configura o pipeline para usar o HealthChecks e determina a URL de acesso "/health" e seu tipo de saida
+            app.UseHealthChecksCustom("/health", HttpStatusCode.ServiceUnavailable, HttpStatusCode.ServiceUnavailable);
 
             app.UseRouting();
 
@@ -158,10 +138,19 @@ namespace DockerAgenda
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             });
+        }
 
-
+        /// <summary>
+        /// Gerar ServiceProvider
+        /// </summary>
+        /// <param name="services">Serviço de registro da aplicação</param>
+        /// <returns>ServiceProvider</returns>
+        private static ServiceProvider BuildServiceProvider(IServiceCollection services)
+        {
+            return services.BuildServiceProvider();
         }
 
         /// <summary>
@@ -170,30 +159,33 @@ namespace DockerAgenda
         /// <param name="app">Instância para configuração do pipeline de uma solicitação</param>
         private void MigracoesPendentes(IApplicationBuilder app)
         {
-            using var db = app
+            Task.Run(() =>
+            {
+                using var db = app
                 .ApplicationServices
                 .CreateScope()
                 .ServiceProvider
                 .GetRequiredService<DockerAgendaContext>();
 
-            var migracoesPendentes = db.Database.GetPendingMigrations();
+                var migracoesPendentes = db.Database.GetPendingMigrations();
 
-            if (migracoesPendentes.Any())
-            {
-                foreach (var migracao in migracoesPendentes)
+                if (migracoesPendentes.Any())
                 {
-                    Console.WriteLine($"Migração: {migracao}");
+                    foreach (var migracao in migracoesPendentes)
+                    {
+                        Console.WriteLine($"Migração: {migracao}");
+                    }
+                    db.Database.Migrate();
                 }
-                db.Database.Migrate();
-            }
 
-            // Adiantando abertura da conexão
-            db.Database.GetDbConnection().Open();
-            using (var cmd = db.Database.GetDbConnection().CreateCommand())
-            {
-                cmd.CommandText = "SELECT 1";
-                cmd.ExecuteNonQuery();
-            }
+                // Adiantando abertura da conexão
+                db.Database.GetDbConnection().Open();
+                using (var cmd = db.Database.GetDbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT 1";
+                    cmd.ExecuteNonQuery();
+                }
+            });
         }
     }
 }

@@ -423,6 +423,191 @@
             <param name="schema">Schema</param>
             <param name="context">Contexto</param>
         </member>
+        <member name="T:DockerAgenda.HealthChecks.ConfigureHealthCheck">
+            <summary>
+            Classe responsável por adicionar no pipeline de execução do
+            aplicativo o HealthCheck default e sua utilização
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.ConfigureHealthCheck.AddHealthChecksCustom(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Int64)">
+            <summary>
+            Adiciona no pipeline de execução do aplicativo a utilização de :
+            - StartupHostedServiceHealthCheck
+            - StartupHostedServiceHealthCheck
+            </summary>
+            <param name="services">O Microsoft.Extensions.DependencyInjection.IServiceCollection ao qual adicionar os serviços</param>
+            <param name="thresholdInBytes">Configura o limite máximo aceitável de consumo de memória do executável</param>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.ConfigureHealthCheck.UseHealthChecksCustom(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String,System.Net.HttpStatusCode,System.Net.HttpStatusCode)">
+            <summary>
+            Configura o pipeline para usar o HealthChecks e determina a URL de acesso "/health" e seu tipo de saida
+            </summary>
+            <param name="app">O Microsoft.AspNetCore.Builder.IApplicationBuilder</param>
+            <param name="pathRootHealthCheck">Define o caminho padrão para acesso as informações de HealthCheck. (/health) é default</param>
+            <param name="unhealthyCode">Esta propriedade pode ser usada para configurar os códigos de status retornados para cada status. Status (HealthStatus.Unhealthy). (503 - ServiceUnavailable) é dafault. </param>
+            <param name="degradedCode">Esta propriedade pode ser usada para configurar os códigos de status retornados para cada status. Status (HealthStatus.Degraded). (503 - ServiceUnavailable) é dafault.</param>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.Dto.DafaultErroHealth">
+            <summary>
+            Responsável por informar situação de cada recurso validado
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.DafaultErroHealth.Key">
+            <summary>
+            Recurso verificado
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.DafaultErroHealth.Value">
+            <summary>
+            Situação do recurso verificado
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.DafaultErroHealth.ValueDescription">
+            <summary>
+            Descrição do HealthStatus
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.Dto.DefaultHealth">
+            <summary>
+            Definação da resposta padrão TopDown para HealthCheck
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.DefaultHealth.Status">
+            <summary>
+            Status da API
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.DefaultHealth.StatusDescription">
+            <summary>
+            Descrição do HealthStatus
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.DefaultHealth.Errors">
+            <summary>
+            Lista de checagem dos serviços
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.DefaultHealth.Report">
+            <summary>
+            Descreve situação detalhada dos serviços
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.Dto.HealthReportProxy">
+            <summary>
+            Proxy for  represents the result of executing a group of Microsoft.Extensions.Diagnostics.HealthChecks.IHealthCheck instances.
+            </summary>
+            <remarks>proxy da classe Microsoft.Extensions.Diagnostics.HealthChecks.HealthReport</remarks>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.HealthReportProxy.Entries">
+            <summary>
+             A System.Collections.Generic.IReadOnlyDictionary`2 containing the results from each health check.
+            </summary>
+            <remarks>
+            The keys in this dictionary map the name of each executed health check to a Microsoft.Extensions.Diagnostics.HealthChecks.HealthReportEntry
+            for the result data returned from the corresponding health check.
+            </remarks>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.HealthReportProxy.Status">
+            <summary>
+            Gets a Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus representing
+            the aggregate status of all the health checks. The value of Microsoft.Extensions.Diagnostics.HealthChecks.HealthReport.Status
+            will be the most severe status reported by a health check. If no checks were
+            executed, the value is always Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Healthy.
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.Dto.HealthReportProxy.TotalDuration">
+            <summary>
+            Gets the time the health check service took to execute.
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.Extensions.GCInfoHealthCheckBuilderExtensions">
+            <summary>
+            Extension responsável por configurar health check no projeto
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.Extensions.GCInfoHealthCheckBuilderExtensions.AddMemoryHealthCheck(Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,System.String,System.Nullable{Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus},System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Int64})">
+            <summary>
+            Adiciona o health check no programa
+            </summary>
+            <param name="builder">O Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder.</param>
+            <param name="name">The name of the health check.</param>
+            <param name="failureStatus">O Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus que deve ser relatado quando a verificação de saúde relata uma falha. Se o valor fornecido for nulo, em seguida, Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy ser relatado.</param>
+            <param name="tags">Uma lista de tags que podem ser usadas para filtrar as verificações de integridade.</param>
+            <param name="thresholdInBytes">Limite máximo de consumo de memória</param>
+            <returns></returns>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.MemoryCheckOptions">
+            <summary>
+            Configuração de consumo máximo de memória
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.MemoryCheckOptions.Threshold">
+            <summary>
+            Definição máxima de consumo de memória
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.MemoryHealthCheck">
+            <summary>
+            Responsável por fazer a validação de consumo de memória da aplicação
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.HealthChecks.MemoryHealthCheck._options">
+            <summary>
+            Options
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.MemoryHealthCheck.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{DockerAgenda.HealthChecks.MemoryCheckOptions})">
+            <summary>
+            Construtor
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.MemoryHealthCheck.Name">
+            <summary>
+            Nome da instalação do healthcheck quando não informado
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.MemoryHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            Executa a checagem de consumo de memória da aplicação
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.PingHealthCheck.Name">
+            <summary>
+            Nome padrão para carregamento das dependências
+            </summary>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck">
+            <summary>
+            HealthCheck da aplicação
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck._startupTaskCompleted">
+            <summary>
+            Controle de início da aplicação
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck.Name">
+            <summary>
+            Nome padrão para carregamento das dependências
+            </summary>
+        </member>
+        <member name="P:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck.StartupTaskCompleted">
+            <summary>
+            Iniio completo
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            Valida carregamento de dependências
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:DockerAgenda.Interfaces.IAgendaService">
             <summary>
             Interface responsável por gerar o contrato do serviços da agenda
@@ -568,19 +753,19 @@
             </summary>
             <param name="services">Serviço de registro da aplicação</param>
         </member>
-        <member name="M:DockerAgenda.Startup.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            Gerar ServiceProvider
-            </summary>
-            <param name="services">Serviço de registro da aplicação</param>
-            <returns>ServiceProvider</returns>
-        </member>
         <member name="M:DockerAgenda.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>
             Configuração
             </summary>
             <param name="app">Instância para configuração do pipeline de uma solicitação</param>
             <param name="env">Instância para fornecer informações sobre o ambiente de execução</param>
+        </member>
+        <member name="M:DockerAgenda.Startup.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Gerar ServiceProvider
+            </summary>
+            <param name="services">Serviço de registro da aplicação</param>
+            <returns>ServiceProvider</returns>
         </member>
         <member name="M:DockerAgenda.Startup.MigracoesPendentes(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
