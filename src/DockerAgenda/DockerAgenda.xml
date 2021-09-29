@@ -429,6 +429,11 @@
             aplicativo o HealthCheck default e sua utilização
             </summary>
         </member>
+        <member name="F:DockerAgenda.HealthChecks.ConfigureHealthCheck.READY">
+            <summary>
+            Constante para definição da tag do predicaro do health
+            </summary>
+        </member>
         <member name="M:DockerAgenda.HealthChecks.ConfigureHealthCheck.AddHealthChecksCustom(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Int64)">
             <summary>
             Adiciona no pipeline de execução do aplicativo a utilização de :
@@ -520,12 +525,12 @@
             Gets the time the health check service took to execute.
             </summary>
         </member>
-        <member name="T:DockerAgenda.HealthChecks.Extensions.GCInfoHealthCheckBuilderExtensions">
+        <member name="T:DockerAgenda.HealthChecks.HealthCheck.Extensions.GCInfoHealthCheckBuilderExtensions">
             <summary>
             Extension responsável por configurar health check no projeto
             </summary>
         </member>
-        <member name="M:DockerAgenda.HealthChecks.Extensions.GCInfoHealthCheckBuilderExtensions.AddMemoryHealthCheck(Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,System.String,System.Nullable{Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus},System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Int64})">
+        <member name="M:DockerAgenda.HealthChecks.HealthCheck.Extensions.GCInfoHealthCheckBuilderExtensions.AddMemoryHealthCheck(Microsoft.Extensions.DependencyInjection.IHealthChecksBuilder,System.String,System.Nullable{Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus},System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Int64})">
             <summary>
             Adiciona o health check no programa
             </summary>
@@ -536,38 +541,38 @@
             <param name="thresholdInBytes">Limite máximo de consumo de memória</param>
             <returns></returns>
         </member>
-        <member name="T:DockerAgenda.HealthChecks.MemoryCheckOptions">
+        <member name="T:DockerAgenda.HealthChecks.HealthCheck.MemoryCheckOptions">
             <summary>
             Configuração de consumo máximo de memória
             </summary>
         </member>
-        <member name="P:DockerAgenda.HealthChecks.MemoryCheckOptions.Threshold">
+        <member name="P:DockerAgenda.HealthChecks.HealthCheck.MemoryCheckOptions.Threshold">
             <summary>
             Definição máxima de consumo de memória
             </summary>
         </member>
-        <member name="T:DockerAgenda.HealthChecks.MemoryHealthCheck">
+        <member name="T:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck">
             <summary>
             Responsável por fazer a validação de consumo de memória da aplicação
             </summary>
         </member>
-        <member name="F:DockerAgenda.HealthChecks.MemoryHealthCheck._options">
+        <member name="F:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck._options">
             <summary>
             Options
             </summary>
         </member>
-        <member name="M:DockerAgenda.HealthChecks.MemoryHealthCheck.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{DockerAgenda.HealthChecks.MemoryCheckOptions})">
+        <member name="M:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{DockerAgenda.HealthChecks.HealthCheck.MemoryCheckOptions})">
             <summary>
             Construtor
             </summary>
             <param name="options"></param>
         </member>
-        <member name="P:DockerAgenda.HealthChecks.MemoryHealthCheck.Name">
+        <member name="P:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck.NAME">
             <summary>
             Nome da instalação do healthcheck quando não informado
             </summary>
         </member>
-        <member name="M:DockerAgenda.HealthChecks.MemoryHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+        <member name="M:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
             <summary>
             Executa a checagem de consumo de memória da aplicação
             </summary>
@@ -575,36 +580,96 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="P:DockerAgenda.HealthChecks.PingHealthCheck.Name">
+        <member name="P:DockerAgenda.HealthChecks.HealthCheck.PingHealthCheck.NAME">
             <summary>
             Nome padrão para carregamento das dependências
             </summary>
         </member>
-        <member name="T:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck">
+        <member name="T:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck">
             <summary>
             HealthCheck da aplicação
             </summary>
         </member>
-        <member name="F:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck._startupTaskCompleted">
+        <member name="F:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck._startupTaskCompleted">
             <summary>
             Controle de início da aplicação
             </summary>
         </member>
-        <member name="P:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck.Name">
+        <member name="P:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck.NAME">
             <summary>
             Nome padrão para carregamento das dependências
             </summary>
         </member>
-        <member name="P:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck.StartupTaskCompleted">
+        <member name="P:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck.StartupTaskCompleted">
             <summary>
             Iniio completo
             </summary>
         </member>
-        <member name="M:DockerAgenda.HealthChecks.StartupHostedServiceHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+        <member name="M:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
             <summary>
             Valida carregamento de dependências
             </summary>
             <param name="context"></param>
+            <param name="cancellationToken"></param>
+            <returns>HealthCheckResult</returns>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.Readiness.ReadinessPublisher">
+            <summary>
+            Classe responsável por implementar regra de Readiness
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.Readiness.ReadinessPublisher.#ctor(Microsoft.Extensions.Logging.ILogger{DockerAgenda.HealthChecks.Readiness.ReadinessPublisher})">
+            <summary>
+            Construtor da classe responsável por implementar regra de Readiness
+            </summary>
+            <param name="logger">Instância de log da aplicação</param>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.Readiness.ReadinessPublisher.PublishAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthReport,System.Threading.CancellationToken)">
+            <summary>
+            Executa processamento do Readiness
+            </summary>
+            <param name="report">Reporte do health</param>
+            <param name="cancellationToken">Tokend de cancelamento</param>
+            <returns>Task</returns>
+        </member>
+        <member name="T:DockerAgenda.HealthChecks.Services.StartupHostedService">
+            <summary>
+            Responsável pelo tempo para carrgamento das dependências do projeto
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.HealthChecks.Services.StartupHostedService._delaySeconds">
+            <summary>
+            Tempo de espera padrão
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.HealthChecks.Services.StartupHostedService._logger">
+            <summary>
+            Log da aplicação
+            </summary>
+        </member>
+        <member name="F:DockerAgenda.HealthChecks.Services.StartupHostedService._startupHostedServiceHealthCheck">
+            <summary>
+            Start host da aplicação
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.Services.StartupHostedService.#ctor(Microsoft.Extensions.Logging.ILogger{DockerAgenda.HealthChecks.Services.StartupHostedService},DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck)">
+            <summary>
+            Construtor
+            </summary>
+            <param name="logger"></param>
+            <param name="startupHostedServiceHealthCheck"></param>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.Services.StartupHostedService.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            Inicia validação
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.Services.StartupHostedService.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            Para validação
+            </summary>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>

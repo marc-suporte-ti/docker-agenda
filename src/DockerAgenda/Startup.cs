@@ -138,6 +138,19 @@ namespace DockerAgenda
 
             app.UseEndpoints(endpoints =>
             {
+                // Adicionando health de pronto para a aplicação
+                endpoints.MapHealthChecks("/health/ready", new HealthCheckOptions()
+                {
+                    Predicate = (check) => check.Tags.Contains(ConfigureHealthCheck.READY),
+                });
+
+                // Adicionando health de ativo para a aplicação
+                endpoints.MapHealthChecks("/health/live", new HealthCheckOptions()
+                {
+                    // Exclude all checks and return a 200-Ok.
+                    Predicate = (_) => false
+                });
+
                 endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             });

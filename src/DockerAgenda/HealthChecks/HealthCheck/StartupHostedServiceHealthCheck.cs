@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DockerAgenda.HealthChecks
+namespace DockerAgenda.HealthChecks.HealthCheck
 {
     /// <summary>
     /// HealthCheck da aplicação
@@ -17,7 +17,7 @@ namespace DockerAgenda.HealthChecks
         /// <summary>
         /// Nome padrão para carregamento das dependências
         /// </summary>
-        public static string Name => "slow_dependency_check";
+        public static string NAME => "slow_dependency_check";
 
         /// <summary>
         /// Iniio completo
@@ -33,7 +33,7 @@ namespace DockerAgenda.HealthChecks
         /// </summary>
         /// <param name="context"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <returns>HealthCheckResult</returns>
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             if (StartupTaskCompleted)
@@ -43,7 +43,7 @@ namespace DockerAgenda.HealthChecks
             }
 
             return Task.FromResult(
-                HealthCheckResult.Unhealthy("A tarefa de inicialização ainda está em execução."));
+                HealthCheckResult.Degraded("A tarefa de inicialização ainda está em execução."));
         }
     }
 }

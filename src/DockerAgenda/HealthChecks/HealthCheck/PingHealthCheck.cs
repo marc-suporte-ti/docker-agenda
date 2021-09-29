@@ -3,14 +3,14 @@ using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DockerAgenda.HealthChecks
+namespace DockerAgenda.HealthChecks.HealthCheck
 {
     internal class PingHealthCheck : IHealthCheck
     {
         /// <summary>
         /// Nome padrão para carregamento das dependências
         /// </summary>
-        public static string Name => "ping_check";
+        public static string NAME => "ping_check";
 
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {

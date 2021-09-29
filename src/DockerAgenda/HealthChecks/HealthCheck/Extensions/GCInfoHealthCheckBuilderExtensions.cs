@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Collections.Generic;
 
-namespace DockerAgenda.HealthChecks.Extensions
+namespace DockerAgenda.HealthChecks.HealthCheck.Extensions
 {
     /// <summary>
     /// Extension responsável por configurar health check no projeto
@@ -27,12 +27,12 @@ namespace DockerAgenda.HealthChecks.Extensions
         {
             // Register a check of type GCInfo.
             builder.AddCheck<MemoryHealthCheck>(
-                name, failureStatus ?? HealthStatus.Degraded, tags);
+                name ?? MemoryHealthCheck.NAME, failureStatus ?? HealthStatus.Degraded, tags);
 
             // Configure named options to pass the threshold into the check.
             if (thresholdInBytes.HasValue)
             {
-                builder.Services.Configure<MemoryCheckOptions>(name, options => options.Threshold = thresholdInBytes.Value);
+                builder.Services.Configure<MemoryCheckOptions>(name ?? MemoryHealthCheck.NAME, options => options.Threshold = thresholdInBytes.Value);
             }
 
             return builder;

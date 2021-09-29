@@ -1,4 +1,4 @@
-﻿namespace DockerAgenda.HealthChecks
+﻿namespace DockerAgenda.HealthChecks.HealthCheck
 {
     /// <summary>
     /// Configuração de consumo máximo de memória

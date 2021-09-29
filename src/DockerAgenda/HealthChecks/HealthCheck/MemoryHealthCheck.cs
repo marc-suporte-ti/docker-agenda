@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DockerAgenda.HealthChecks
+namespace DockerAgenda.HealthChecks.HealthCheck
 {
     /// <summary>
     /// Responsável por fazer a validação de consumo de memória da aplicação
@@ -29,7 +29,7 @@ namespace DockerAgenda.HealthChecks
         /// <summary>
         /// Nome da instalação do healthcheck quando não informado
         /// </summary>
-        public string Name => "memory_check";
+        public static string NAME => "memory_check";
 
         /// <summary>
         /// Executa a checagem de consumo de memória da aplicação

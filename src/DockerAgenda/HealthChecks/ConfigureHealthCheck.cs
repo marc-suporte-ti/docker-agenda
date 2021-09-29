@@ -1,5 +1,8 @@
 ﻿using DockerAgenda.HealthChecks.Dto;
-using DockerAgenda.HealthChecks.Extensions;
+using DockerAgenda.HealthChecks.HealthCheck;
+using DockerAgenda.HealthChecks.HealthCheck.Extensions;
+using DockerAgenda.HealthChecks.Readiness;
+using DockerAgenda.HealthChecks.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +23,11 @@ namespace DockerAgenda.HealthChecks
     public static class ConfigureHealthCheck
     {
         /// <summary>
+        /// Constante para definição da tag do predicaro do health
+        /// </summary>
+        public const string READY = "ready";
+
+        /// <summary>
         /// Adiciona no pipeline de execução do aplicativo a utilização de :
         /// - StartupHostedServiceHealthCheck
         /// - StartupHostedServiceHealthCheck
@@ -29,14 +37,22 @@ namespace DockerAgenda.HealthChecks
         public static IServiceCollection AddHealthChecksCustom(this IServiceCollection services, long thresholdInBytes)
         {
             //Adicionando Middleware para checar a saúde do serviço
+            services.AddHostedService<StartupHostedService>();
             services.AddSingleton<StartupHostedServiceHealthCheck>();
             services.AddSingleton<PingHealthCheck>();
-            //services.AddHostedService<StartupHostedService>();
 
             services.AddHealthChecks()
                 .AddMemoryHealthCheck("memory_check", thresholdInBytes: thresholdInBytes)
-                .AddCheck<StartupHostedServiceHealthCheck>(StartupHostedServiceHealthCheck.Name, failureStatus: HealthStatus.Unhealthy)
-                .AddCheck<PingHealthCheck>(PingHealthCheck.Name, failureStatus: HealthStatus.Unhealthy);
+                .AddCheck<StartupHostedServiceHealthCheck>(StartupHostedServiceHealthCheck.NAME, failureStatus: HealthStatus.Degraded, tags: new[] { READY })
+                .AddCheck<PingHealthCheck>(PingHealthCheck.NAME, failureStatus: HealthStatus.Degraded);
+
+            services.Configure<HealthCheckPublisherOptions>(options =>
+             {
+                 options.Delay = TimeSpan.FromSeconds(2);
+                 options.Predicate = (check) => check.Tags.Contains(READY);
+             });
+
+            services.AddSingleton<IHealthCheckPublisher, ReadinessPublisher>();
 
             return services;
         }
