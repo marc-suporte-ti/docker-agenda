@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -104,6 +105,9 @@ namespace DockerAgenda
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddHealthChecksCustom(Convert.ToInt64(Configuration.GetSection("MemoryCheckOptions:Threshold").Value));
+
+            services.AddHealthChecks()
+                .AddDbContextCheck<DockerAgendaContext>(nameof(DockerAgendaContext));
         }
 
         /// <summary>
@@ -174,24 +178,24 @@ namespace DockerAgenda
                 .ServiceProvider
                 .GetRequiredService<DockerAgendaContext>();
 
-                //var migracoesPendentes = db.Database.GetPendingMigrations();
+                var migracoesPendentes = db.Database.GetPendingMigrations();
 
-                //if (migracoesPendentes.Any())
-                //{
-                //    foreach (var migracao in migracoesPendentes)
-                //    {
-                //        Console.WriteLine($"Migração: {migracao}");
-                //    }
-                //    db.Database.Migrate();
-                //}
+                if (migracoesPendentes.Any())
+                {
+                    foreach (var migracao in migracoesPendentes)
+                    {
+                        Console.WriteLine($"Migração: {migracao}");
+                    }
+                    db.Database.Migrate();
+                }
 
-                //// Adiantando abertura da conexão
-                //db.Database.GetDbConnection().Open();
-                //using (var cmd = db.Database.GetDbConnection().CreateCommand())
-                //{
-                //    cmd.CommandText = "SELECT 1";
-                //    cmd.ExecuteNonQuery();
-                //}
+                // Adiantando abertura da conexão
+                db.Database.GetDbConnection().Open();
+                using (var cmd = db.Database.GetDbConnection().CreateCommand())
+                {
+                    cmd.CommandText = "SELECT 1";
+                    cmd.ExecuteNonQuery();
+                }
             });
         }
     }
