@@ -11,11 +11,21 @@ namespace DockerAgenda.Data
     public class DockerAgendaContext : DbContext
     {
         /// <summary>
+        /// Instância do Factory de log da aplicação
+        /// </summary>
+        private readonly ILoggerFactory _loggerFactory;
+
+        /// <summary>
         /// Construtor do contexto da aplicação
         /// </summary>
-        /// <param name="options"></param>
-        public DockerAgendaContext(DbContextOptions<DockerAgendaContext> options) : base(options)
-        { }
+        /// <param name="options">Configuração do contexto</param>
+        /// <param name="loggerFactory">Instância do Factory de log da aplicação</param>
+        public DockerAgendaContext(
+            DbContextOptions<DockerAgendaContext> options,
+            ILoggerFactory loggerFactory) : base(options)
+        {
+            _loggerFactory = loggerFactory;
+        }
 
         /// <summary>
         /// Tabela de agendas
@@ -39,8 +49,12 @@ namespace DockerAgenda.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
+                //Habilitando valores dos parâmetros no log
                 .EnableSensitiveDataLogging()
-                .LogTo(Console.WriteLine, LogLevel.Debug);
+                //Habilitando detalhamento exception, somente debug pois tem custo de processamento
+                .EnableDetailedErrors()
+                //Configurando log
+                .UseLoggerFactory(_loggerFactory);
         }
 
     }

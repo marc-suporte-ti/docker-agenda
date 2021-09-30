@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 
 services:
   agenda_service:
@@ -10,16 +10,13 @@ services:
       context: .
       dockerfile: src/DockerAgenda/Dockerfile
     environment:
-     - CONNECTION__CONNECTIONSTRINGS=Server=sql_agenda_service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word
+      - Connection__ConnectionStrings=Server=sql_agenda_service,1433;Database=DockerAgenda_Db;MultipleActiveResultSets=true;User ID=sa;Password=Pass@word
     networks:
-     - net_agenda
+      - net_agenda
+    volumes:
+      - api_log_volume:/logs
     depends_on:
      - sql_agenda_service
-    healthcheck:
-       test: ["CMD", "curl", "-f", "https://agenda_service:4443/status-json"]
-       interval: 5s
-       timeout: 10s
-       retries: 5
 
   sql_agenda_service:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -35,9 +32,10 @@ services:
     networks:
      - net_agenda
 
-
 volumes:
   sql_agenda_service_volume:
+
+  api_log_volume:
 
 networks:
   net_agenda:

@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 
 services:
   agenda_service:
@@ -15,6 +15,8 @@ services:
       - "443:443"
     depends_on:
      - sql_agenda_service
+    volumes:
+      - api_log_volume:/logs
 
   sql_agenda_service:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -34,6 +36,8 @@ services:
 
 volumes:
   sql_agenda_service_volume:
+
+  api_log_volume:
 
 networks:
   net_agenda:

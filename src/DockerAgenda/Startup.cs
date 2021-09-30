@@ -6,22 +6,16 @@ using DockerAgenda.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Mime;
-using System.Net.NetworkInformation;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -180,24 +174,24 @@ namespace DockerAgenda
                 .ServiceProvider
                 .GetRequiredService<DockerAgendaContext>();
 
-                var migracoesPendentes = db.Database.GetPendingMigrations();
+                //var migracoesPendentes = db.Database.GetPendingMigrations();
 
-                if (migracoesPendentes.Any())
-                {
-                    foreach (var migracao in migracoesPendentes)
-                    {
-                        Console.WriteLine($"Migração: {migracao}");
-                    }
-                    db.Database.Migrate();
-                }
+                //if (migracoesPendentes.Any())
+                //{
+                //    foreach (var migracao in migracoesPendentes)
+                //    {
+                //        Console.WriteLine($"Migração: {migracao}");
+                //    }
+                //    db.Database.Migrate();
+                //}
 
-                // Adiantando abertura da conexão
-                db.Database.GetDbConnection().Open();
-                using (var cmd = db.Database.GetDbConnection().CreateCommand())
-                {
-                    cmd.CommandText = "SELECT 1";
-                    cmd.ExecuteNonQuery();
-                }
+                //// Adiantando abertura da conexão
+                //db.Database.GetDbConnection().Open();
+                //using (var cmd = db.Database.GetDbConnection().CreateCommand())
+                //{
+                //    cmd.CommandText = "SELECT 1";
+                //    cmd.ExecuteNonQuery();
+                //}
             });
         }
     }

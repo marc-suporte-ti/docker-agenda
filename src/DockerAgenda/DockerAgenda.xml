@@ -64,11 +64,17 @@
             Contexto da aplicação
             </summary>
         </member>
-        <member name="M:DockerAgenda.Data.DockerAgendaContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{DockerAgenda.Data.DockerAgendaContext})">
+        <member name="F:DockerAgenda.Data.DockerAgendaContext._loggerFactory">
+            <summary>
+            Instância do Factory de log da aplicação
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.Data.DockerAgendaContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{DockerAgenda.Data.DockerAgendaContext},Microsoft.Extensions.Logging.ILoggerFactory)">
             <summary>
             Construtor do contexto da aplicação
             </summary>
-            <param name="options"></param>
+            <param name="options">Configuração do contexto</param>
+            <param name="loggerFactory">Instância do Factory de log da aplicação</param>
         </member>
         <member name="P:DockerAgenda.Data.DockerAgendaContext.Agendas">
             <summary>
