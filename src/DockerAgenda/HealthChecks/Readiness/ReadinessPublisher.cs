@@ -32,11 +32,11 @@ namespace DockerAgenda.HealthChecks.Readiness
         {
             if (report.Status == HealthStatus.Healthy)
             {
-                _logger.LogInformation("{Timestamp} Status da Sondagem de Prontidão: {Result}", DateTime.UtcNow, report.Status);
+                _logger.LogInformation("{Timestamp} Status do Readiness: {Result}", DateTime.UtcNow, report.Status);
             }
             else
             {
-                _logger.LogError("{Timestamp} Status da Sondagem de Prontidão: {Result}", DateTime.UtcNow, report.Status);
+                _logger.LogError("{Timestamp} Status do Readiness: {Result}", DateTime.UtcNow, report.Status);
             }
 
             cancellationToken.ThrowIfCancellationRequested();
