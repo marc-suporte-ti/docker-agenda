@@ -153,9 +153,9 @@ namespace DockerAgenda
                 endpoints.MapHealthChecks("/health/live", new HealthCheckOptions()
                 {
                     // Exclude all checks and return a 200-Ok.
-                    Predicate = (_) =>
+                    Predicate = (check) =>
                     {
-                        logger.LogInformation("{Timestamp} Executando /health/live: ", DateTime.UtcNow);
+                        logger.LogInformation("{Timestamp} Executando /health/live: {Name} ", DateTime.UtcNow, check.Name);
                         return false;
                     }
                 });
