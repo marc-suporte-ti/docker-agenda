@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,11 @@ namespace DockerAgenda.HealthChecks.HealthCheck
     public class MemoryHealthCheck : IHealthCheck
     {
         /// <summary>
+        /// Log
+        /// </summary>
+        private readonly ILogger<MemoryHealthCheck> _logger;
+
+        /// <summary>
         /// Options
         /// </summary>
         private readonly IOptionsMonitor<MemoryCheckOptions> _options;
@@ -20,9 +26,14 @@ namespace DockerAgenda.HealthChecks.HealthCheck
         /// <summary>
         /// Construtor
         /// </summary>
-        /// <param name="options"></param>
-        public MemoryHealthCheck(IOptionsMonitor<MemoryCheckOptions> options)
+        /// <param name="logger">Log</param>
+        /// <param name="options">Options</param>
+        public MemoryHealthCheck(
+            ILogger<MemoryHealthCheck> logger,
+            IOptionsMonitor<MemoryCheckOptions> options
+            )
         {
+            _logger = logger;
             _options = options;
         }
 
@@ -54,8 +65,18 @@ namespace DockerAgenda.HealthChecks.HealthCheck
                 { "RemainingBytes", (options.Threshold - allocated) },
             };
 
-            var status = (allocated < options.Threshold) ?
-                HealthStatus.Healthy : HealthStatus.Unhealthy;
+            HealthStatus status;
+
+            if (allocated < options.Threshold)
+            {
+                status = HealthStatus.Healthy;
+                _logger.LogInformation("{Timestamp} Status da Memória: {Result}", DateTime.UtcNow, status);
+            }
+            else
+            {
+                status = HealthStatus.Unhealthy;
+                _logger.LogError("{Timestamp} Status da Memória: {Result}", DateTime.UtcNow, status);
+            }
 
             return Task.FromResult(new HealthCheckResult(
                 status,

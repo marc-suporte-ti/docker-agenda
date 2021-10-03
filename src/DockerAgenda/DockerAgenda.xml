@@ -562,16 +562,22 @@
             Responsável por fazer a validação de consumo de memória da aplicação
             </summary>
         </member>
+        <member name="F:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck._logger">
+            <summary>
+            Log
+            </summary>
+        </member>
         <member name="F:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck._options">
             <summary>
             Options
             </summary>
         </member>
-        <member name="M:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{DockerAgenda.HealthChecks.HealthCheck.MemoryCheckOptions})">
+        <member name="M:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck.#ctor(Microsoft.Extensions.Logging.ILogger{DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck},Microsoft.Extensions.Options.IOptionsMonitor{DockerAgenda.HealthChecks.HealthCheck.MemoryCheckOptions})">
             <summary>
             Construtor
             </summary>
-            <param name="options"></param>
+            <param name="logger">Log</param>
+            <param name="options">Options</param>
         </member>
         <member name="P:DockerAgenda.HealthChecks.HealthCheck.MemoryHealthCheck.NAME">
             <summary>
@@ -586,10 +592,21 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="F:DockerAgenda.HealthChecks.HealthCheck.PingHealthCheck._logger">
+            <summary>
+            Log
+            </summary>
+        </member>
         <member name="P:DockerAgenda.HealthChecks.HealthCheck.PingHealthCheck.NAME">
             <summary>
             Nome padrão para carregamento das dependências
             </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.HealthCheck.PingHealthCheck.#ctor(Microsoft.Extensions.Logging.ILogger{DockerAgenda.HealthChecks.HealthCheck.PingHealthCheck})">
+            <summary>
+            Health ping
+            </summary>
+            <param name="logger">Log</param>
         </member>
         <member name="T:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck">
             <summary>
