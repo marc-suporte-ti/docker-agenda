@@ -12,7 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
@@ -115,7 +117,8 @@ namespace DockerAgenda
         /// </summary>
         /// <param name="app">Instância para configuração do pipeline de uma solicitação</param>
         /// <param name="env">Instância para fornecer informações sobre o ambiente de execução</param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        /// <param name="logger">Instância para fornecer informações para o log da aplicação</param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -139,14 +142,22 @@ namespace DockerAgenda
                 // Adicionando health de pronto para a aplicação
                 endpoints.MapHealthChecks("/health/ready", new HealthCheckOptions()
                 {
-                    Predicate = (check) => check.Tags.Contains(ConfigureHealthCheck.READY),
+                    Predicate = (check) =>
+                    {
+                        logger.LogInformation("{Timestamp} Executando /health/ready: {Name} -Tags: {2} - Result - {3}", DateTime.UtcNow, check.Name, JsonConvert.SerializeObject(check.Tags), check.Tags.Contains(ConfigureHealthCheck.READY));
+                        return check.Tags.Contains(ConfigureHealthCheck.READY);
+                    },
                 });
 
                 // Adicionando health de ativo para a aplicação
                 endpoints.MapHealthChecks("/health/live", new HealthCheckOptions()
                 {
                     // Exclude all checks and return a 200-Ok.
-                    Predicate = (_) => false
+                    Predicate = (_) =>
+                    {
+                        logger.LogInformation("{Timestamp} Executando /health/live: ", DateTime.UtcNow);
+                        return false;
+                    }
                 });
 
                 endpoints.MapHealthChecks("/health");

@@ -841,12 +841,13 @@
             </summary>
             <param name="services">Serviço de registro da aplicação</param>
         </member>
-        <member name="M:DockerAgenda.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+        <member name="M:DockerAgenda.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.Extensions.Logging.ILogger{DockerAgenda.Startup})">
             <summary>
             Configuração
             </summary>
             <param name="app">Instância para configuração do pipeline de uma solicitação</param>
             <param name="env">Instância para fornecer informações sobre o ambiente de execução</param>
+            <param name="logger">Instância para fornecer informações para o log da aplicação</param>
         </member>
         <member name="M:DockerAgenda.Startup.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
