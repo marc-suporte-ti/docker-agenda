@@ -42,8 +42,8 @@ namespace DockerAgenda.HealthChecks
             services.AddSingleton<PingHealthCheck>();
 
             services.AddHealthChecks()
-                .AddMemoryHealthCheck("memory_check", thresholdInBytes: thresholdInBytes)
-                .AddCheck<StartupHostedServiceHealthCheck>(StartupHostedServiceHealthCheck.NAME, failureStatus: HealthStatus.Degraded, tags: new[] { READY })
+                .AddMemoryHealthCheck("memory_check", thresholdInBytes: thresholdInBytes, tags: new[] { READY })
+                .AddCheck<StartupHostedServiceHealthCheck>(StartupHostedServiceHealthCheck.NAME, failureStatus: HealthStatus.Degraded)
                 .AddCheck<PingHealthCheck>(PingHealthCheck.NAME, failureStatus: HealthStatus.Degraded);
 
             services.Configure<HealthCheckPublisherOptions>(options =>

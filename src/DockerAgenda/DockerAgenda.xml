@@ -628,6 +628,17 @@
             Iniio completo
             </summary>
         </member>
+        <member name="F:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck._logger">
+            <summary>
+            Instância de log da aplicação
+            </summary>
+        </member>
+        <member name="M:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck.#ctor(Microsoft.Extensions.Logging.ILogger{DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck})">
+            <summary>
+            Construtor de validação de componentes carregados
+            </summary>
+            <param name="logger">Instância de log da aplicação</param>
+        </member>
         <member name="M:DockerAgenda.HealthChecks.HealthCheck.StartupHostedServiceHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
             <summary>
             Valida carregamento de dependências
