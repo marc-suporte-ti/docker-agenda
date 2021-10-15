@@ -1,8 +1,6 @@
 ﻿using DockerAgenda.Data;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,15 +16,15 @@ namespace DockerAgenda.Controllers
     [Route("api/v{version:apiVersion}/migrations")]
     public class MigrationsController : Base
     {
-        private readonly IApplicationBuilder _app;
+        private readonly DockerAgendaContext _db;
 
         /// <summary>
         /// Construtor do controller responsável por processar migrações pendentes
         /// </summary>
-        /// <param name="app">Instância para configuração do pipeline de uma solicitação</param>
-        public MigrationsController(IApplicationBuilder app)
+        /// <param name="db">Instância de banco de dados da aplicação</param>
+        public MigrationsController(DockerAgendaContext db)
         {
-            _app = app;
+            _db = db;
         }
 
         /// <summary>
@@ -36,13 +34,7 @@ namespace DockerAgenda.Controllers
         [HttpGet]
         public async Task<ActionResult> ValidarMigration()
         {
-            using var db = _app
-                .ApplicationServices
-                .CreateScope()
-                .ServiceProvider
-                .GetRequiredService<DockerAgendaContext>();
-
-            var migracoesPendentes = await db.Database.GetPendingMigrationsAsync();
+            var migracoesPendentes = await _db.Database.GetPendingMigrationsAsync();
 
             if (migracoesPendentes?.Any() == true)
             {
@@ -51,12 +43,12 @@ namespace DockerAgenda.Controllers
                     Console.WriteLine($"Migração: {migracao}");
                 }
 
-                await db.Database.MigrateAsync();
+                await _db.Database.MigrateAsync();
             }
 
             // Adiantando abertura da conexão
-            db.Database.GetDbConnection().Open();
-            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            _db.Database.GetDbConnection().Open();
+            using (var cmd = _db.Database.GetDbConnection().CreateCommand())
             {
                 cmd.CommandText = "SELECT 1";
                 cmd.ExecuteNonQuery();
