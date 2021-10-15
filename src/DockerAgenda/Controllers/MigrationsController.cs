@@ -33,8 +33,8 @@ namespace DockerAgenda.Controllers
         /// Validando se existe pacote não aplicado no banco
         /// </summary>
         /// <returns>Resposta processamento</returns>
-        [HttpPost("{id}/contatos/{idContato}")]
-        public async Task<ActionResult> PostItemContato()
+        [HttpGet]
+        public async Task<ActionResult> ValidarMigration()
         {
             using var db = _app
                 .ApplicationServices
