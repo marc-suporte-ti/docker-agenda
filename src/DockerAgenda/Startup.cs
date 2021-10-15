@@ -17,10 +17,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace DockerAgenda
 {
@@ -128,8 +126,6 @@ namespace DockerAgenda
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agenda v1"));
 
-            MigracoesPendentes(app);
-
             //Configura o pipeline para usar o HealthChecks e determina a URL de acesso "/health" e seu tipo de saida
             app.UseHealthChecksCustom("/health", HttpStatusCode.ServiceUnavailable, HttpStatusCode.ServiceUnavailable);
 
@@ -173,41 +169,6 @@ namespace DockerAgenda
         private static ServiceProvider BuildServiceProvider(IServiceCollection services)
         {
             return services.BuildServiceProvider();
-        }
-
-        /// <summary>
-        /// Validando se existe pacote não aplicado no banco
-        /// </summary>
-        /// <param name="app">Instância para configuração do pipeline de uma solicitação</param>
-        private void MigracoesPendentes(IApplicationBuilder app)
-        {
-            Task.Run(() =>
-            {
-                using var db = app
-                .ApplicationServices
-                .CreateScope()
-                .ServiceProvider
-                .GetRequiredService<DockerAgendaContext>();
-
-                var migracoesPendentes = db.Database.GetPendingMigrations();
-
-                if (migracoesPendentes.Any())
-                {
-                    foreach (var migracao in migracoesPendentes)
-                    {
-                        Console.WriteLine($"Migração: {migracao}");
-                    }
-                    db.Database.Migrate();
-                }
-
-                // Adiantando abertura da conexão
-                db.Database.GetDbConnection().Open();
-                using (var cmd = db.Database.GetDbConnection().CreateCommand())
-                {
-                    cmd.CommandText = "SELECT 1";
-                    cmd.ExecuteNonQuery();
-                }
-            });
         }
     }
 }

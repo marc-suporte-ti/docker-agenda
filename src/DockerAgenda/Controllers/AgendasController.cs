@@ -13,7 +13,7 @@ namespace DockerAgenda.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/agendas")]
-    public class AgendasController : ControllerBase
+    public class AgendasController : Base
     {
         /// <summary>
         /// Instância do serviço da api
@@ -27,17 +27,6 @@ namespace DockerAgenda.Controllers
         public AgendasController(IAgendaService agendaService)
         {
             _agendaService = agendaService;
-        }
-
-        /// <summary>
-        /// Retorna informações da máquina no Header da resposta
-        /// </summary>
-        private void RetornaHeadersPadrao()
-        {
-            Response.Headers.Add("Machine", Environment.MachineName);
-            Response.Headers.Add("OSVersion", Environment.OSVersion.VersionString);
-            Response.Headers.Add("Platform", Environment.OSVersion.Platform.ToString());
-            Response.Headers.Add("ProcessId", Environment.ProcessId.ToString());
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿using DockerAgenda.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace DockerAgenda.Data
 {
