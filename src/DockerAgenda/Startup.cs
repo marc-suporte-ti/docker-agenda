@@ -4,6 +4,7 @@ using DockerAgenda.HealthChecks;
 using DockerAgenda.Interfaces;
 using DockerAgenda.Service;
 using Jaeger;
+using Jaeger.Reporters;
 using Jaeger.Samplers;
 using Jaeger.Senders;
 using Jaeger.Senders.Thrift;
@@ -20,7 +21,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using OpenTracing;
-using OpenTracing.Contrib.NetCore ;
 using OpenTracing.Contrib.NetCore.Configuration;
 using OpenTracing.Util;
 using System;
@@ -70,13 +70,24 @@ namespace DockerAgenda
                 Jaeger.Configuration.SenderConfiguration.DefaultSenderResolver = new SenderResolver(loggerFactory)
                     .RegisterSenderFactory<ThriftSenderFactory>();
 
+                var reporter = new RemoteReporter.Builder()
+                    .WithLoggerFactory(loggerFactory)
+                    .WithSender(new UdpSender(
+                        Configuration.GetSection("Jaeger:AgentHost").Get<string>(),
+                        Configuration.GetSection("Jaeger:AgentPort").Get<int>(),
+                        Configuration.GetSection("Jaeger:MaxPacketSize").Get<int>()))
+                    .Build();
+
                 var tracer = new Tracer.Builder(serviceName)
                     .WithSampler(new ConstSampler(true))
                     .WithLoggerFactory(loggerFactory)
+                    .WithReporter(reporter)
                     .Build();
 
-                // Allows code that can't use DI to also access the tracer.
-                GlobalTracer.Register(tracer);
+                if (!GlobalTracer.IsRegistered())
+                {
+                    GlobalTracer.Register(tracer);
+                }
 
                 return tracer;
             });
