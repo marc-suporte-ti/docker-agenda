@@ -1,8 +1,10 @@
 using Destructurama;
+using Jaeger;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenTracing.Util;
 using Serilog;
 using System;
 using System.Text;
@@ -12,7 +14,7 @@ namespace DockerAgenda
     /// <summary>
     /// Classe de execução inicial
     /// </summary>
-    public class Program
+    public static class Program
     {
         /// <summary>
         /// Metodo para start da aplicação
@@ -20,6 +22,10 @@ namespace DockerAgenda
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+            var serviceName = "DockerAgenda";
+            var trace = new Tracer.Builder(serviceName).Build();
+            GlobalTracer.Register(trace);
+
             CreateHostBuilder(args).Build().Run();
         }
 
