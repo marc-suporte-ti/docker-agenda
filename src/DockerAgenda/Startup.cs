@@ -3,6 +3,10 @@ using DockerAgenda.Filters;
 using DockerAgenda.HealthChecks;
 using DockerAgenda.Interfaces;
 using DockerAgenda.Service;
+using Jaeger;
+using Jaeger.Samplers;
+using Jaeger.Senders;
+using Jaeger.Senders.Thrift;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +19,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using OpenTracing;
+using OpenTracing.Contrib.NetCore ;
+using OpenTracing.Contrib.NetCore.Configuration;
+using OpenTracing.Util;
 using System;
 using System.IO;
 using System.Linq;
@@ -49,6 +57,35 @@ namespace DockerAgenda
         /// <param name="services">Serviço de registro da aplicação</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOpenTracing();
+
+            services.AddSingleton<ITracer>(serviceProvider =>
+            {
+                var serviceName = serviceProvider
+                    .GetRequiredService<Microsoft.AspNetCore.Hosting.IHostingEnvironment>()
+                    .ApplicationName;
+
+                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+
+                Jaeger.Configuration.SenderConfiguration.DefaultSenderResolver = new SenderResolver(loggerFactory)
+                    .RegisterSenderFactory<ThriftSenderFactory>();
+
+                var tracer = new Tracer.Builder(serviceName)
+                    .WithSampler(new ConstSampler(true))
+                    .WithLoggerFactory(loggerFactory)
+                    .Build();
+
+                // Allows code that can't use DI to also access the tracer.
+                GlobalTracer.Register(tracer);
+
+                return tracer;
+            });
+
+            services.Configure<HttpHandlerDiagnosticOptions>(options =>
+            {
+                options.IgnorePatterns.Add(x => !x.RequestUri.IsLoopback);
+            });
+
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -118,7 +155,8 @@ namespace DockerAgenda
         /// <param name="app">Instância para configuração do pipeline de uma solicitação</param>
         /// <param name="env">Instância para fornecer informações sobre o ambiente de execução</param>
         /// <param name="logger">Instância para fornecer informações para o log da aplicação</param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        /// <param name="loggerFactory">Instância para fornecer informações da factory de log da aplicação</param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
