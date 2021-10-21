@@ -1,6 +1,7 @@
 using Destructurama;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
@@ -26,7 +27,7 @@ namespace DockerAgenda
         /// Iniciando configuração inicial da aplicação
         /// </summary>
         /// <param name="args"></param>
-        /// <returns></returns>
+        /// <returns>IHostBuilder</returns>
         public static IHostBuilder CreateHostBuilder(string[] args)
             => Host.CreateDefaultBuilder(args)
             .UseSerilog((provider, loggerConfiguration) =>
@@ -40,6 +41,11 @@ namespace DockerAgenda
                 loggerConfiguration.Enrich.FromLogContext();
                 Console.OutputEncoding = Encoding.UTF8;
                 loggerConfiguration.WriteTo.Console();
+            })
+            .ConfigureServices(services =>
+            {
+                // Enables and automatically starts the instrumentation!
+                services.AddOpenTracing();
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {
